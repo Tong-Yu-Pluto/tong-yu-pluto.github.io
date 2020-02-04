@@ -5,12 +5,41 @@
     <link>/</link>
       <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <description>Tong Yu</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 04 Feb 2020 13:10:41 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Tong Yu</title>
       <link>/</link>
     </image>
+    
+    <item>
+      <title>Paper Note (ICDE 2013)</title>
+      <link>/post/2020-2-4-1/</link>
+      <pubDate>Tue, 04 Feb 2020 13:10:41 +0800</pubDate>
+      <guid>/post/2020-2-4-1/</guid>
+      <description>&lt;h2 id=&#34;1-scenario&#34;&gt;1. Scenario&lt;/h2&gt;
+&lt;p&gt;There are three types of participants in the scenario: organization, drivers and passengers.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Organization&lt;/strong&gt; : Organization is a company or a transportation authority that operates a dynamic taxi ridesharing service.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Drivers&lt;/strong&gt; : Taxi drivers can independently determine when to join and leave the service.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Passengers&lt;/strong&gt; : Passengers submit ride queries in real time via a mobile device&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Each query indicates the &lt;u&gt;origin and destination locations of the trip&lt;/u&gt;, as well as &lt;u&gt;time windows constraining when the passenger wants to be picked up and dropped off&lt;/u&gt;.&lt;/p&gt;
+&lt;p&gt;Once receiving a new query, the organization will dispatch an &amp;ldquo;appropriate&amp;rdquo; taxi which is able to satisfy both the new query and the trips of existing passengers who are already assigned to the taxi.&lt;/p&gt;
+&lt;h2 id=&#34;2-problem&#34;&gt;2. Problem&lt;/h2&gt;
+&lt;p&gt;This paper propose a two-fold goal.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;The first goal&lt;/strong&gt; is to investigate the potential of taxi ridesharing in serving more taxi ride queries by comparing with the case where no ridesharing is conducted.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The second goal&lt;/strong&gt; is to reduce the total travel distance of these taxis (so as to reduce the energy consumption) when doing the ridesharing.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So the problem is to build a dynamic ridesharing service applicable for the practical use, i.e. serving a large number of queries quickly. &lt;u&gt;To achieve this purpose, two issues need to be addressed.&lt;/u&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;The first issue&lt;/strong&gt; : How to quickly search an &amp;ldquo;appropriate&amp;rdquo; taxi from a large number of candidate cars?&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The second issue&lt;/strong&gt; : How to accelerate the computation of shortest paths since the shortest path calculation is usually complicated?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-method&#34;&gt;3. Method&lt;/h2&gt;
+</description>
+    </item>
     
   </channel>
 </rss>

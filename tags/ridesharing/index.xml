@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts | Tong Yu</title>
-    <link>/post/</link>
-      <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
-    <description>Posts</description>
+    <title>ridesharing | Tong Yu</title>
+    <link>/tags/ridesharing/</link>
+      <atom:link href="/tags/ridesharing/index.xml" rel="self" type="application/rss+xml" />
+    <description>ridesharing</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 04 Feb 2020 13:10:41 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
-      <title>Posts</title>
-      <link>/post/</link>
+      <title>ridesharing</title>
+      <link>/tags/ridesharing/</link>
     </image>
     
     <item>

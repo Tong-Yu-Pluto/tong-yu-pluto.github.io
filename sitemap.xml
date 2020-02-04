@@ -3,19 +3,57 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/authors/admin/</loc>
-  </url>
-  
-  <url>
     <loc>/authors/</loc>
+    <lastmod>2020-02-04T13:10:41+08:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/</loc>
+    <lastmod>2020-02-04T13:10:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2020-2-4-1/</loc>
+    <lastmod>2020-02-04T13:10:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/paper-note-icde/</loc>
+    <lastmod>2020-02-04T13:10:41+08:00</lastmod>
   </url>
   
   <url>
     <loc>/post/</loc>
+    <lastmod>2020-02-04T13:10:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ridesharing/</loc>
+    <lastmod>2020-02-04T13:10:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/spatial-crowdsourcing/</loc>
+    <lastmod>2020-02-04T13:10:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-02-04T13:10:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2020-02-04T13:10:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/authors/tong-yu/</loc>
+    <lastmod>2020-02-04T13:10:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/authors/admin/</loc>
   </url>
   
   <url>
@@ -28,14 +66,6 @@
   
   <url>
     <loc>/talk/</loc>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-  </url>
-  
-  <url>
-    <loc>/</loc>
   </url>
   
 </urlset>
