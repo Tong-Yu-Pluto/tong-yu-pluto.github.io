@@ -13,7 +13,7 @@
     </image>
     
     <item>
-      <title>Paper Note (ICDE 2013)</title>
+      <title>Paper Note - 2020/2/4</title>
       <link>/post/2020-2-4-1/</link>
       <pubDate>Tue, 04 Feb 2020 13:10:41 +0800</pubDate>
       <guid>/post/2020-2-4-1/</guid>
@@ -26,7 +26,7 @@
 &lt;/ul&gt;
 &lt;p&gt;Each query indicates the &lt;u&gt;origin and destination locations of the trip&lt;/u&gt;, as well as &lt;u&gt;time windows constraining when the passenger wants to be picked up and dropped off&lt;/u&gt;.&lt;/p&gt;
 &lt;p&gt;Once receiving a new query, the organization will dispatch an &amp;ldquo;appropriate&amp;rdquo; taxi which is able to satisfy both the new query and the trips of existing passengers who are already assigned to the taxi.&lt;/p&gt;
-&lt;h2 id=&#34;2-problem&#34;&gt;2. Problem&lt;/h2&gt;
+&lt;h2 id=&#34;2-motivation&#34;&gt;2. Motivation&lt;/h2&gt;
 &lt;p&gt;This paper propose a two-fold goal.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;The first goal&lt;/strong&gt; is to investigate the potential of taxi ridesharing in serving more taxi ride queries by comparing with the case where no ridesharing is conducted.&lt;/li&gt;
@@ -37,7 +37,267 @@
 &lt;li&gt;&lt;strong&gt;The first issue&lt;/strong&gt; : How to quickly search an &amp;ldquo;appropriate&amp;rdquo; taxi from a large number of candidate cars?&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;The second issue&lt;/strong&gt; : How to accelerate the computation of shortest paths since the shortest path calculation is usually complicated?&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;3-method&#34;&gt;3. Method&lt;/h2&gt;
+&lt;h2 id=&#34;3-preliminaries&#34;&gt;3. Preliminaries&lt;/h2&gt;
+&lt;h3 id=&#34;31-definition&#34;&gt;3.1. Definition&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Query&lt;/strong&gt; : A query Q is a passenger’s request for a taxi ride.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-4-1/query_hud347ee22c158084d84b8812f6b857e6a_9338_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-4-1/query_hud347ee22c158084d84b8812f6b857e6a_9338_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;481&#34; height=&#34;81&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Schedule&lt;/strong&gt; : A schedule S is a temporally-ordered sequence of pickup and delivery points.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-4-1/schedule_hu47c934b410a1689cc18669ba9768b129_5600_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-4-1/schedule_hu47c934b410a1689cc18669ba9768b129_5600_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;221&#34; height=&#34;101&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Taxi Status&lt;/strong&gt; :  A taxi status V represents the instantaneous state of a taxi.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-4-1/taxi_status_hu6418551d827abec3032b98b822b04033_16114_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-4-1/taxi_status_hu6418551d827abec3032b98b822b04033_16114_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;840&#34; height=&#34;131&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Satisfaction&lt;/strong&gt; : Given a taxi status V and a query Q, the paper says that V satisfies Q iff
+&lt;ol&gt;
+&lt;li&gt;The number of on-board passengers is smaller than the capacity of the taxi.&lt;/li&gt;
+&lt;li&gt;The taxi can pickup and drop off Q and other on-board passengers without violating the time constraint.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;32-problem&#34;&gt;3.2. Problem&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The Dynamic Taxi Ridesharing Problem&lt;/strong&gt; : Given a fixed number of taxis traveling on a road network and a stream of queries (i.e. a sequence of queries in ascending order of their birth time), the paper aims to &lt;u&gt;serve each query in the stream by dispatching the taxi which satisfies with minimum additional incurred travel distance on the road network&lt;/u&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;P.S.&lt;/strong&gt; The paper aims to minimize the increased travel distance for each individual query. This is obviously a greedy strategy and it does not guarantee that the total travel distance of all taxis for all queries is minimized. &lt;u&gt;Howerver, the problem of optimizing travel distance for all taxis for the whole query stream has been proved to be NP-complete by reducing to the Travelling Salesman Problem with Time Window.&lt;/u&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;33-framework&#34;&gt;3.3. Framework&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-4-1/framework_hu80a8d6d7f84148f102c61f3aba0566fb_75147_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-4-1/framework_hu80a8d6d7f84148f102c61f3aba0566fb_75147_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;513&#34; height=&#34;459&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h2 id=&#34;4-method&#34;&gt;4. Method&lt;/h2&gt;
+&lt;h3 id=&#34;41-a-spatio-temporal-index-of-taxis&#34;&gt;4.1. A Spatio-temporal Index of Taxis&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Main Idea&lt;/strong&gt; : It needs to use the query’s time windows to filter out unsatisfactory taxis. The authors want a taxi searching process that is both fast and selects taxis wisely such that the selected taxis can satisfy the query with a reasonable small increase in travel distance over their existing schedules. If we use a pre-computed distance to approximate the distance of the shortest path, though the distance is not exact anymore, the time-consuming problem completely goes away.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;We partition the road network using a grid. Within each grid cell, we choose the road network node which is closest to the geographical centre of the cell as the anchor node of the cell. The anchor node of a grid cell $g_{i}$ is thereafter denoted by $c_{i}$ .
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-4-1/method_1_1_huf29fbc3cd8f55bc41b1972a0aa4ee356_31851_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-4-1/method_1_1_huf29fbc3cd8f55bc41b1972a0aa4ee356_31851_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;321&#34; height=&#34;312&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;We pre-compute the distance, denoted by $d_{ij}$ , and travel time, denoted by $t_{ij}$ , of the shortest path on the road network for each anchor node pair $c_{i}$ and $c_{j}$ . The distance and travel time results are saved in a matrix. The matrix is thereafter referred to as the grid distance matrix.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-4-1/method_1_2_huc544431513aa519ce59bb06262b6fd41_25966_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-4-1/method_1_2_huc544431513aa519ce59bb06262b6fd41_25966_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;366&#34; height=&#34;315&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Now imagine that each grid cell collapses to its anchor node, that is, all the points in one cell fall to its anchor node. Then the distance between any two arbitrary points equals to the distance between two corresponding anchor nodes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Each cell has some internal data structure for the purpose of taxi searching. Specifically, each grid cell $g_{i}$ maintains three lists: a temporally-ordered grid cell list $(g_{i}.l_{g}^{t})$ , a spatially-ordered grid cell list $(g_{i}.l_{g}^{d})$ , and a taxi list $(g_{i}.l_{v})$ . The spatial and temporal closeness between each pair of grid cells are measured by the values saved in the grid distance matrix.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-4-1/method_1_3_hu2d038ac018bc8d992497e2484a0723fd_26837_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-4-1/method_1_3_hu2d038ac018bc8d992497e2484a0723fd_26837_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;520&#34; height=&#34;299&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Each taxi ID is also tagged with a timestamp $t_{a}$ indicating when the taxi will enter the grid cell. Specifically, taxi $V_{j}$ is removed from the list when $V_{j}$ leaves $g_{i}$ ; taxi $V_{k}$ is inserted into the list when $V_{j}$ is newly scheduled to enter $g_{i}$ .&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;42-taxi-searching-algorithms&#34;&gt;4.2. Taxi Searching Algorithms&lt;/h3&gt;
 </description>
     </item>
     

@@ -28,7 +28,7 @@
   
     
   
-  <meta name="description" content="T-Share: A Large-Scale Dynamic Taxi Ridesharing Service.">
+  <meta name="description" content="(ICDE 2013) T-Share: A Large-Scale Dynamic Taxi Ridesharing Service.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/2020-2-4-1/">
@@ -43,6 +43,9 @@
   
 
   
+  
+  
+  <script src="/js/mathjax-config.js"></script>
   
 
   
@@ -174,9 +177,9 @@
 
       
       
-        
-      
 
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
       
     
       
@@ -229,8 +232,8 @@
   
   <meta property="og:site_name" content="Tong Yu">
   <meta property="og:url" content="/post/2020-2-4-1/">
-  <meta property="og:title" content="Paper Note (ICDE 2013) | Tong Yu">
-  <meta property="og:description" content="T-Share: A Large-Scale Dynamic Taxi Ridesharing Service."><meta property="og:image" content="/post/2020-2-4-1/featured.png">
+  <meta property="og:title" content="Paper Note - 2020/2/4 | Tong Yu">
+  <meta property="og:description" content="(ICDE 2013) T-Share: A Large-Scale Dynamic Taxi Ridesharing Service."><meta property="og:image" content="/post/2020-2-4-1/featured.png">
   <meta property="twitter:image" content="/post/2020-2-4-1/featured.png"><meta property="og:locale" content="en-us">
   
     
@@ -264,7 +267,7 @@
     "@type": "WebPage",
     "@id": "/post/2020-2-4-1/"
   },
-  "headline": "Paper Note (ICDE 2013)",
+  "headline": "Paper Note - 2020/2/4",
   
   "image": [
     "/post/2020-2-4-1/featured.png"
@@ -286,7 +289,7 @@
       "url": "img//"
     }
   },
-  "description": "T-Share: A Large-Scale Dynamic Taxi Ridesharing Service."
+  "description": "(ICDE 2013) T-Share: A Large-Scale Dynamic Taxi Ridesharing Service."
 }
 </script>
 
@@ -304,7 +307,7 @@
 
 
 
-  <title>Paper Note (ICDE 2013) | Tong Yu</title>
+  <title>Paper Note - 2020/2/4 | Tong Yu</title>
 
 </head>
 
@@ -495,10 +498,10 @@
 
 
 <div class="article-container pt-3">
-  <h1>Paper Note (ICDE 2013)</h1>
+  <h1>Paper Note - 2020/2/4</h1>
 
   
-  <p class="page-subtitle">T-Share: A Large-Scale Dynamic Taxi Ridesharing Service.</p>
+  <p class="page-subtitle">(ICDE 2013) T-Share: A Large-Scale Dynamic Taxi Ridesharing Service.</p>
   
 
   
@@ -537,7 +540,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    4 min read
   </span>
   
 
@@ -593,7 +596,7 @@
 </ul>
 <p>Each query indicates the <u>origin and destination locations of the trip</u>, as well as <u>time windows constraining when the passenger wants to be picked up and dropped off</u>.</p>
 <p>Once receiving a new query, the organization will dispatch an &ldquo;appropriate&rdquo; taxi which is able to satisfy both the new query and the trips of existing passengers who are already assigned to the taxi.</p>
-<h2 id="2-problem">2. Problem</h2>
+<h2 id="2-motivation">2. Motivation</h2>
 <p>This paper propose a two-fold goal.</p>
 <ul>
 <li><strong>The first goal</strong> is to investigate the potential of taxi ridesharing in serving more taxi ride queries by comparing with the case where no ridesharing is conducted.</li>
@@ -604,7 +607,267 @@
 <li><strong>The first issue</strong> : How to quickly search an &ldquo;appropriate&rdquo; taxi from a large number of candidate cars?</li>
 <li><strong>The second issue</strong> : How to accelerate the computation of shortest paths since the shortest path calculation is usually complicated?</li>
 </ul>
-<h2 id="3-method">3. Method</h2>
+<h2 id="3-preliminaries">3. Preliminaries</h2>
+<h3 id="31-definition">3.1. Definition</h3>
+<ul>
+<li><strong>Query</strong> : A query Q is a passenger’s request for a taxi ride.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-4-1/query_hud347ee22c158084d84b8812f6b857e6a_9338_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-4-1/query_hud347ee22c158084d84b8812f6b857e6a_9338_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="481" height="81">
+</a>
+
+
+
+</figure>
+</li>
+<li><strong>Schedule</strong> : A schedule S is a temporally-ordered sequence of pickup and delivery points.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-4-1/schedule_hu47c934b410a1689cc18669ba9768b129_5600_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-4-1/schedule_hu47c934b410a1689cc18669ba9768b129_5600_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="221" height="101">
+</a>
+
+
+
+</figure>
+</li>
+<li><strong>Taxi Status</strong> :  A taxi status V represents the instantaneous state of a taxi.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-4-1/taxi_status_hu6418551d827abec3032b98b822b04033_16114_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-4-1/taxi_status_hu6418551d827abec3032b98b822b04033_16114_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="840" height="131">
+</a>
+
+
+
+</figure>
+</li>
+<li><strong>Satisfaction</strong> : Given a taxi status V and a query Q, the paper says that V satisfies Q iff
+<ol>
+<li>The number of on-board passengers is smaller than the capacity of the taxi.</li>
+<li>The taxi can pickup and drop off Q and other on-board passengers without violating the time constraint.</li>
+</ol>
+</li>
+</ul>
+<h3 id="32-problem">3.2. Problem</h3>
+<ul>
+<li>
+<p><strong>The Dynamic Taxi Ridesharing Problem</strong> : Given a fixed number of taxis traveling on a road network and a stream of queries (i.e. a sequence of queries in ascending order of their birth time), the paper aims to <u>serve each query in the stream by dispatching the taxi which satisfies with minimum additional incurred travel distance on the road network</u>.</p>
+</li>
+<li>
+<p><strong>P.S.</strong> The paper aims to minimize the increased travel distance for each individual query. This is obviously a greedy strategy and it does not guarantee that the total travel distance of all taxis for all queries is minimized. <u>Howerver, the problem of optimizing travel distance for all taxis for the whole query stream has been proved to be NP-complete by reducing to the Travelling Salesman Problem with Time Window.</u></p>
+</li>
+</ul>
+<h3 id="33-framework">3.3. Framework</h3>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-4-1/framework_hu80a8d6d7f84148f102c61f3aba0566fb_75147_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-4-1/framework_hu80a8d6d7f84148f102c61f3aba0566fb_75147_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="513" height="459">
+</a>
+
+
+
+</figure>
+
+<h2 id="4-method">4. Method</h2>
+<h3 id="41-a-spatio-temporal-index-of-taxis">4.1. A Spatio-temporal Index of Taxis</h3>
+<p><strong>Main Idea</strong> : It needs to use the query’s time windows to filter out unsatisfactory taxis. The authors want a taxi searching process that is both fast and selects taxis wisely such that the selected taxis can satisfy the query with a reasonable small increase in travel distance over their existing schedules. If we use a pre-computed distance to approximate the distance of the shortest path, though the distance is not exact anymore, the time-consuming problem completely goes away.</p>
+<ol>
+<li>
+<p>We partition the road network using a grid. Within each grid cell, we choose the road network node which is closest to the geographical centre of the cell as the anchor node of the cell. The anchor node of a grid cell $g_{i}$ is thereafter denoted by $c_{i}$ .
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-4-1/method_1_1_huf29fbc3cd8f55bc41b1972a0aa4ee356_31851_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-4-1/method_1_1_huf29fbc3cd8f55bc41b1972a0aa4ee356_31851_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="321" height="312">
+</a>
+
+
+
+</figure>
+</p>
+</li>
+<li>
+<p>We pre-compute the distance, denoted by $d_{ij}$ , and travel time, denoted by $t_{ij}$ , of the shortest path on the road network for each anchor node pair $c_{i}$ and $c_{j}$ . The distance and travel time results are saved in a matrix. The matrix is thereafter referred to as the grid distance matrix.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-4-1/method_1_2_huc544431513aa519ce59bb06262b6fd41_25966_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-4-1/method_1_2_huc544431513aa519ce59bb06262b6fd41_25966_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="366" height="315">
+</a>
+
+
+
+</figure>
+</p>
+</li>
+<li>
+<p>Now imagine that each grid cell collapses to its anchor node, that is, all the points in one cell fall to its anchor node. Then the distance between any two arbitrary points equals to the distance between two corresponding anchor nodes.</p>
+</li>
+<li>
+<p>Each cell has some internal data structure for the purpose of taxi searching. Specifically, each grid cell $g_{i}$ maintains three lists: a temporally-ordered grid cell list $(g_{i}.l_{g}^{t})$ , a spatially-ordered grid cell list $(g_{i}.l_{g}^{d})$ , and a taxi list $(g_{i}.l_{v})$ . The spatial and temporal closeness between each pair of grid cells are measured by the values saved in the grid distance matrix.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-4-1/method_1_3_hu2d038ac018bc8d992497e2484a0723fd_26837_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-4-1/method_1_3_hu2d038ac018bc8d992497e2484a0723fd_26837_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="520" height="299">
+</a>
+
+
+
+</figure>
+</p>
+</li>
+<li>
+<p>Each taxi ID is also tagged with a timestamp $t_{a}$ indicating when the taxi will enter the grid cell. Specifically, taxi $V_{j}$ is removed from the list when $V_{j}$ leaves $g_{i}$ ; taxi $V_{k}$ is inserted into the list when $V_{j}$ is newly scheduled to enter $g_{i}$ .</p>
+</li>
+</ol>
+<h3 id="42-taxi-searching-algorithms">4.2. Taxi Searching Algorithms</h3>
 
     </div>
 
@@ -697,6 +960,8 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
 
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js" integrity="sha256-JEqEejGt4tR35L0a1zodzsV0/PJ6GIf7J4yDtywdrH8=" crossorigin="anonymous" title="mermaid"></script>
       
 
       
