@@ -455,6 +455,74 @@ $$t_{cur}+t_{j2} \leq Q.wd.l$$
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;43-scheduling-module&#34;&gt;4.3. Scheduling Module&lt;/h3&gt;
+&lt;h4 id=&#34;431-insertion-feasibility-check&#34;&gt;4.3.1. Insertion Feasibility Check&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The insertion can be separated into two stages: (i) insert the pickup point of the query $Q.o$ ; (ii) insert the delivery point of the query $Q.d$ . Among all possible ways of insertion, the system chooses the insertion way that minimally increases the travel distance.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;An insertion feasibility check is done before an insertion:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The passenger should be picked up before $Q.wp.l$ .&lt;/li&gt;
+&lt;li&gt;Travel time delay $t_{d}$ should not result the late arrival at any point after the insertion.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The increased travel distance is calculated when both $Q.o$ and $Q.d$ are inserted successfully.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-4-1/method_3_1_hu943817b818205cb3f2c05fa79d2c2b07_37963_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-4-1/method_3_1_hu943817b818205cb3f2c05fa79d2c2b07_37963_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;672&#34; height=&#34;186&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;432-lazy-shortest-path-calculation-strategy&#34;&gt;4.3.2. Lazy Shortest Path Calculation Strategy&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;Main Idea&lt;/strong&gt; : The paper aims to expedite the insertion process by speeding up the calculation itself instead of eliminating some insertion possibilities.&lt;/p&gt;
+&lt;p&gt;The calculation of shortest path is deferred or avoided by the following logic:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;If the shortest path between the origin location O and the destination location D has been previously calculated, then the algorithm simply retrieves the path from the cached results.&lt;/li&gt;
+&lt;li&gt;Otherwise, instead of directly calculating the shortest path, the algorithm first calculates the lower bound of the travel time between O and D using the precomputed travel time between grid cells and the triangle inequality. Only when the lower bound does not violate time constraints, the algorithm needs to proceed to compute the shortest-time path between points O and D.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;It is evident that the grid size will affect the effectiveness of lazy shortest path calculation strategy. State-of-art shortest path algorithms can be applied to speed up on-line shortest path calculations.&lt;/p&gt;
+&lt;h3 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Measurements
+&lt;ol&gt;
+&lt;li&gt;Relative Distance Rate (RDR) : Define the distance of a query $Q$ as the distance between its pickup point $Q.o$ and its delivery point $Q.d$ . Denote by $D_{SQ}$ the sum of distances of queries that get satisfied and by $D_{V}$ the total distance travelled by all taxis in the ridesharing.
+$$RDR = D_{V}/D_{SQ}$$&lt;/li&gt;
+&lt;li&gt;Satisfaction Rate (SR) : is the fraction of queries get satisfied in the ridesharing (exclude queries that are already served by taxis at the initial state in the query counting).&lt;/li&gt;
+&lt;li&gt;Number of Road Nodes Accessed Per Query (#RNAPQ) : is the number of accessed road network nodes per query.&lt;/li&gt;
+&lt;li&gt;Number of Grid Cells Accessed Per Query (#GCAPQ) : is the number of accessed grid cells per query.&lt;/li&gt;
+&lt;li&gt;Number of Taxis Accessed Per Query (#TAPQ) : This measurement records how many taxis per query are accessed for insertion feasibility checks by the scheduling module.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     
