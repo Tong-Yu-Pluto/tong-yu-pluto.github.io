@@ -540,7 +540,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    4 min read
+    6 min read
   </span>
   
 
@@ -868,6 +868,163 @@
 </li>
 </ol>
 <h3 id="42-taxi-searching-algorithms">4.2. Taxi Searching Algorithms</h3>
+<h4 id="421-single-side-taxi-searching">4.2.1. Single-side Taxi Searching</h4>
+<p><strong>Main Idea</strong> : We use query&rsquo;s late pick-up timestamp to filter out grids, then filter the possible taxis from the candidate grids.</p>
+<ol>
+<li>
+<p>Suppose a passenger commits a query $Q$ located at grid $g_{7}$ at the time of $t_{cur}$ .
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-4-1/method_2_1_hu7d7e326b5cd973f956622b15ceb057ed_98800_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-4-1/method_2_1_hu7d7e326b5cd973f956622b15ceb057ed_98800_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="638" height="387">
+</a>
+
+
+
+</figure>
+</p>
+</li>
+<li>
+<p>Any other arbitrary grid cell is selected by the searching algorithm if and only if
+$$t_{i7} + t_{cur} \leq Q.wp.l$$
+$t_{i7}$ indicates the travel time from grid $g_{i}$ to grid $g_{7}$ . To quickly find all grids hold the equation above, the single-side searching algorithm simply tests all grid cells in the order-preserved list $g_{7}.l_{g}^{t}$ and finds the first grid $g_{f}$ fails to hold the equation. Then the grids before $g_{f}$  in the list $g_{7}.l_{g}^{t}$ are selected as candidate taxis.</p>
+</li>
+<li>
+<p>For  each selected grid cell $g_{s}$ , the algorithm selects taxis (in $g_{s}.l_{v}$) whose $t_{a}$ is no later than $Q.wp.l - t_{s7}$ .
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-4-1/method_2_2_hub75161ce21867257f31b85020308e40b_30416_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-4-1/method_2_2_hub75161ce21867257f31b85020308e40b_30416_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="589" height="249">
+</a>
+
+
+
+</figure>
+</p>
+</li>
+</ol>
+<p><strong>Weakness</strong> : Unfortunately, this algorithm only considers taxis currently &ldquo;near&rdquo; the pickup point of a query (thus called single-side search). As the number of selected grid cells could be large, this algorithm may result in many taxis retrieved for the later scheduling module (therefore increasing the entire computation cost).</p>
+<h4 id="422-dual-side-taxi-searching">4.2.2. Dual-Side Taxi Searching</h4>
+<p><strong>Main Idea</strong> : The spatio-temporal factor on the delivery point of queries also provides us with opportunities to reduce the number of grid cells to be selected. A dual-side searching algorithm is proposed as an effort for striking a balance between the distance optimality and the computation cost.</p>
+<ol>
+<li>
+<p>Suppose the deliver point is at grid $g_{2}$ . Any grid cell $g_{j}$ other than $g_{2}$ is selected by the searching algorithm at side if and only if the equation below holds, which means that any taxi currently in can enter before the late bound of the delivery window.
+$$t_{cur}+t_{j2} \leq Q.wd.l$$
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-4-1/method_2_3_hu31892b81786e77bcee49283119a63262_101906_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-4-1/method_2_3_hu31892b81786e77bcee49283119a63262_101906_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="665" height="376">
+</a>
+
+
+
+</figure>
+</p>
+</li>
+<li>
+<p>The algorithm mantains a set $S_{o}$ and a set $S_{d}$ to store the taxis selected from $Q.o$ and $Q.d$ side respectively.</p>
+<ol>
+<li>Initially, both and are empty.</li>
+<li>The first step in the searching is to add the taxis selected from taxi list $g_{7}.l_{v}$ to set $S_{o}$ , and add the taxis selected from taxi list $g_{2}.l_{v}$ to set $S_{d}$ . Then the algorithm calculates the intersection of $S_{o}$ and $S_{d}$ .</li>
+<li>If the intersection is not empty, the algorithm stops immediately and returns the intersection set. Otherwise, it expands the searching area by including one other grid cell at each side at a time.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-4-1/method_2_4_hua22a83df82277672b1b2b72fdfd73af6_110070_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-4-1/method_2_4_hua22a83df82277672b1b2b72fdfd73af6_110070_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="640" height="625">
+</a>
+
+
+
+</figure>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="43-scheduling-module">4.3. Scheduling Module</h3>
 
     </div>
 
