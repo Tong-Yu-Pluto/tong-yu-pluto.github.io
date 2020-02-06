@@ -510,7 +510,7 @@ $$t_{cur}+t_{j2} \leq Q.wd.l$$
 &lt;li&gt;Otherwise, instead of directly calculating the shortest path, the algorithm first calculates the lower bound of the travel time between O and D using the precomputed travel time between grid cells and the triangle inequality. Only when the lower bound does not violate time constraints, the algorithm needs to proceed to compute the shortest-time path between points O and D.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;It is evident that the grid size will affect the effectiveness of lazy shortest path calculation strategy. State-of-art shortest path algorithms can be applied to speed up on-line shortest path calculations.&lt;/p&gt;
-&lt;h3 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h3&gt;
+&lt;h2 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Measurements
 &lt;ol&gt;

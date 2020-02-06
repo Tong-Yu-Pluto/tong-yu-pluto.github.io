@@ -5,12 +5,156 @@
     <link>/authors/tong-yu/</link>
       <atom:link href="/authors/tong-yu/index.xml" rel="self" type="application/rss+xml" />
     <description>Tong Yu</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 04 Feb 2020 13:10:41 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 05 Feb 2020 19:34:40 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Tong Yu</title>
       <link>/authors/tong-yu/</link>
     </image>
+    
+    <item>
+      <title>Paper Note - 2020/2/5</title>
+      <link>/post/2020-2-5-1/</link>
+      <pubDate>Wed, 05 Feb 2020 19:34:40 +0800</pubDate>
+      <guid>/post/2020-2-5-1/</guid>
+      <description>&lt;h2 id=&#34;1-scenario&#34;&gt;1. Scenario&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Passenger&lt;/strong&gt; : A person uses the cell app (or a regular phone call to a taxi company) specifying its current location, destination, and others informations such as a maximum delay that he is available to accept (the delay is in comparison with a sole taxi trip).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Driver&lt;/strong&gt; :  Car owners and riders specify their origins and destinations. Car owners also indicate a maximum delay they can accept.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Plateform&lt;/strong&gt; : If a user gets a shared trip, the system must guarantee that it is cheaper than the trip where he goes alone, and that he arrives at his destination within the maximum delay specified. Based on the car gas price and consumption per kilometer, the system computes matchings between car owners and riders.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2-motivation&#34;&gt;2. Motivation&lt;/h2&gt;
+&lt;p&gt;This paper focuses principally on the optimization problem that we call &lt;strong&gt;dynamic taxi sharing with time windows problem&lt;/strong&gt; (TSTWP).&lt;/p&gt;
+&lt;p&gt;Several &lt;strong&gt;constraints&lt;/strong&gt; must be considered:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the vehicle capacity&lt;/li&gt;
+&lt;li&gt;the cost of a shared ride must not exceed the cost of a private ride&lt;/li&gt;
+&lt;li&gt;each passenger and taxi has time window&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This paper wants to &lt;u&gt;maximize the number of served requests&lt;/u&gt; and minimize the total cost incurred to passengers, which is the same as maximize the sharing. The goals are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;The first goal&lt;/strong&gt; : Maximize the number of served requests.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The second goal&lt;/strong&gt; : Minimize the cost payed by the served passengers.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;P.S. There is an &lt;u&gt;upper bound&lt;/u&gt; for the second objective, by computing the cost of each trip as a private trip.&lt;/p&gt;
+&lt;p&gt;The &lt;strong&gt;hard part&lt;/strong&gt; is&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Time&lt;/strong&gt; : No one can arrive at its destination later than its maximum allowable time, and no one is served before its service time.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Costs&lt;/strong&gt; : A taxi passenger on a shared trip can not spend more money than on a sole trip. A car owner interested in offering rides, must receive at least as much he spend doing an alternative route, instead of his shortest path route.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Safety&lt;/strong&gt; : The system used by hitchhikers and car owners requires a previous registration. Users can specify that they only ride with friends of friends for example, using data from social networks.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-preliminaries&#34;&gt;3. Preliminaries&lt;/h2&gt;
+&lt;h3 id=&#34;31-formal-problem-definition&#34;&gt;3.1. Formal Problem Definition&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;A graph $G = (V, E)$ : represents the map of the city.&lt;/li&gt;
+&lt;li&gt;A set $N= \{ 1,2,\cdots,n \}$ : reprensents $n$ taxis requests.&lt;/li&gt;
+&lt;li&gt;A set $K = \{ 2n + 1, \cdots, 2n+ta \}$ : represents $ta$ taxi vehicles.&lt;/li&gt;
+&lt;li&gt;Each request $i \in N$ has a source point $i$ , a destination point $i + n$ , an earliest departure time $e_{i}$ , a latest arrival time $l_{i}$ and the number of people $p_{i}$ .&lt;/li&gt;
+&lt;li&gt;Each taxi vehicle $k \in K$ has a source point $k$ , the vehicle capacity $ca_{k}$ , the start time $e_{k}$ and the end time $l_{k}$ .&lt;/li&gt;
+&lt;li&gt;Every pair of vertices $i,j$ has the travel time $t_{ij}$ and the travel cost $c_{ij}$ .&lt;/li&gt;
+&lt;li&gt;A taxi route is defined as a sequence of pickup and delivery points.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;32-objective-function&#34;&gt;3.2. Objective Function&lt;/h3&gt;
+&lt;p&gt;$$ \max \sum_{k \in K} \sum_{i \in N} x_{i}^{k} - \alpha \cfrac{C_{i}^{k}}{C_{i,i+n}} $$&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$x_{i}^{k}$ : 0 or 1, represents request $i$ is or not served by vehicle $k$ .&lt;/li&gt;
+&lt;li&gt;$C_{i}^{k}$ : represents the cost payed by the request $i$ served by vehicle $k$ .&lt;/li&gt;
+&lt;li&gt;$C_{i, i+n}$ : represents the cost of a private trip for request $i$ .&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;4-method&#34;&gt;4. Method&lt;/h2&gt;
+&lt;h3 id=&#34;41-time-processing&#34;&gt;4.1. Time Processing&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;This paper divides the day into a set of short time periods.&lt;/li&gt;
+&lt;li&gt;In each period it solves a static version of the problem using the GRASP heuristic, taking into account all known requests and vehicles.&lt;/li&gt;
+&lt;li&gt;The requests that were not served are added in the input of the next execution.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;42-the-grasp-heuristic&#34;&gt;4.2. The GRASP Heuristic&lt;/h3&gt;
+&lt;p&gt;The paper proposes a greedy randomized adaptive search procedure (GRASP) to solve the static version of the TSTWP.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;In the first phase we have to &lt;strong&gt;compute a greedy randomized initial solution&lt;/strong&gt;. The greedy strategy leads to good solutions and randomization is used so that different initial solutions can be constructed.&lt;/li&gt;
+&lt;li&gt;In the second phase, &lt;strong&gt;a local search&lt;/strong&gt; is performed in order to improve the solution found in the first phase. The GRASP metaheuristic repeats these two phases for a maximum number of iterations (or a maximum time).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;43-computing-initial-solutions&#34;&gt;4.3. Computing Initial Solutions&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;First of all, we initialize the route of each taxi.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;add the source point $k$ of each taxi as the first point of its route&lt;/li&gt;
+&lt;li&gt;set $T_{k}^{k}$ as the maximum between $e_{k}$ and the time at the moment&lt;/li&gt;
+&lt;li&gt;set $L_{k}^{k} = 0$,  because the taxi driver is not counted as a passenger&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In the case that some taxis may already have a route,  we update and copy its route.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A random taxi $k$ is chosen from $K$ . Then, for all requests $i \in N$ that were not served yet, we calculate a &lt;strong&gt;greedy function&lt;/strong&gt; $\mu_{i}^{k}$  . After that, a request $i$ is chosen randomly with probability proportional to $\mu_{i}^{k}$ .&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;We try to insert the source and destination points of the request $i$ in the route of the taxi $k$ .&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If the insertion is feasible, we remove this request from $N$, and we update the greedy function for all remaining unserved requests in $N$ .&lt;/li&gt;
+&lt;li&gt;If the insertion is unfeasible we do not try to insert this request anymore in the route of this taxi.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then, another request is chosen in the same manner. After we tried to insert all requests, we remove $k$ from $K$ and the procedure is repeated, until $K = \emptyset $ .&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;44-greedy-function&#34;&gt;4.4. Greedy Function&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Delay Time&lt;/strong&gt; : We define the delay time $d_{j,i}^{k}$ of a point $i$ as the amount of time that would be increased if point $i$ had been inserted after point $j$ , in the route of taxi $k$ .&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;$$d_{i,j}^{k} = \max \{ t_{ji}, e_{i}-T_{j}^{k} \}$$
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-5-1/method_1_hu220c0b7ca3c140e44d1a186d0012b155_29481_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-5-1/method_1_hu220c0b7ca3c140e44d1a186d0012b155_29481_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;516&#34; height=&#34;181&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$$ d_{j,i+n}^{k} = \begin{cases} t_{j,i+n}, \text{ if } t_{j,i+n}+T_{j}^{k}\leq l_{i} \\  \infty , \text{ otherwise} \end{cases}$$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Greedy Function&lt;/strong&gt; : $ \mu_{i}^{k} = \min_{j \in R(k)}d_{j,i}^{k} + \min_{j \in R(k)}d_{j,i+n}^{k} $&lt;/p&gt;
+&lt;h3 id=&#34;45-local-search&#34;&gt;4.5. Local Search&lt;/h3&gt;
+&lt;p&gt;The local search method starts setting as the current solution an initial feasible solution, and explore new feasible solutions that are in its neighborhood. Three types of operations are proposed to obtain new solutions.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Removal of some request from some route and attempt to insert, in this route, some request that was not served.&lt;/li&gt;
+&lt;li&gt;Permutation of two requests from different routes.&lt;/li&gt;
+&lt;li&gt;Permutation of two consecutive points of the same route.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;At each iteration, we perform each of the three operations defined above, obtaining three new solutions. If the best of them is better than the current one, then the method sets this solution as the new current one. This procedure is repeated until there is no improvement in the current solution after a certain number of consecutive iterations, or until some maximum number of iterations is achieved.&lt;/p&gt;
+&lt;h2 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h2&gt;
+&lt;p&gt;No contributions.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Paper Note - 2020/2/4</title>
@@ -510,7 +654,7 @@ $$t_{cur}+t_{j2} \leq Q.wd.l$$
 &lt;li&gt;Otherwise, instead of directly calculating the shortest path, the algorithm first calculates the lower bound of the travel time between O and D using the precomputed travel time between grid cells and the triangle inequality. Only when the lower bound does not violate time constraints, the algorithm needs to proceed to compute the shortest-time path between points O and D.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;It is evident that the grid size will affect the effectiveness of lazy shortest path calculation strategy. State-of-art shortest path algorithms can be applied to speed up on-line shortest path calculations.&lt;/p&gt;
-&lt;h3 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h3&gt;
+&lt;h2 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Measurements
 &lt;ol&gt;
