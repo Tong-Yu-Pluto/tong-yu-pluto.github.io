@@ -5,12 +5,25 @@
     <link>/tags/spatial-crowdsourcing/</link>
       <atom:link href="/tags/spatial-crowdsourcing/index.xml" rel="self" type="application/rss+xml" />
     <description>spatial crowdsourcing</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 05 Feb 2020 19:34:40 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 07 Feb 2020 13:25:07 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>spatial crowdsourcing</title>
       <link>/tags/spatial-crowdsourcing/</link>
     </image>
+    
+    <item>
+      <title>Paper Note - 2020/2/7</title>
+      <link>/post/2020-2-7-1/</link>
+      <pubDate>Fri, 07 Feb 2020 13:25:07 +0800</pubDate>
+      <guid>/post/2020-2-7-1/</guid>
+      <description>&lt;h2 id=&#34;1-scenario&#34;&gt;1. Scenario&lt;/h2&gt;
+&lt;h2 id=&#34;2-motivation&#34;&gt;2. Motivation&lt;/h2&gt;
+&lt;h2 id=&#34;3-preliminaries&#34;&gt;3. Preliminaries&lt;/h2&gt;
+&lt;h2 id=&#34;4-method&#34;&gt;4. Method&lt;/h2&gt;
+&lt;h2 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h2&gt;
+</description>
+    </item>
     
     <item>
       <title>Paper Note - 2020/2/5</title>
