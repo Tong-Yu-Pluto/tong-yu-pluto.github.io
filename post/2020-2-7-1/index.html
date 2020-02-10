@@ -540,7 +540,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    1 min read
+    4 min read
   </span>
   
 
@@ -588,10 +588,137 @@
 
     <div class="article-style">
       <h2 id="1-scenario">1. Scenario</h2>
+<p>Each request specifies two constraints :</p>
+<ol>
+<li><strong>Waiting Time</strong> : defining the maximal time allowed between making the request and receiving the service.</li>
+<li><strong>Service Constraint</strong> : defining the acceptable extra detour time from the shortest possible trip duration.</li>
+</ol>
+<p>When a new request is received, it is <u>evaluated immediately</u> for server matching and scheduling.</p>
 <h2 id="2-motivation">2. Motivation</h2>
+<p><strong>The goal is</strong> to schedule requests in real-time and minimize the servers’ travel times to complete all committed services while meeting service guarantees.</p>
+<p><strong>Real-time Ridesharing</strong> : Given a set of vehicles on the road network $G$ and a new incoming request $tr$ , find the vehicle that minimizes the overall trip cost for the augmented valid trip schedule.</p>
 <h2 id="3-preliminaries">3. Preliminaries</h2>
+<ol>
+<li>A Road Network $G = &lt;V,E,W&gt;$ : consists of a vertex set $V$ and an edge set $E$. Each edge $(u,v)\in E$ is associated with a weight $W(u,v)$ indicating the traveling cost along the edge $(u,v)$ .</li>
+<li>A Path $p$ : is a vertex sequence.</li>
+<li>A Trip Request $tr = &lt;s,e,w,\epsilon&gt;$ :
+<ul>
+<li>$w$ : a maximal waiting time</li>
+<li>$\epsilon$ : a service constraint, bounding the overall time from $s$ to $e$ by $(1+\epsilon)d(s,e)$</li>
+</ul>
+</li>
+<li>A General Trip Schedule $S$ : trip set of size $m$ can be described in a sequence of $3m$ elements
+<ul>
+<li>$s_i$ : where a rider is picked up</li>
+<li>$e_i$ : where a rider is dropped off</li>
+<li>$r_i$ : where a request is received</li>
+</ul>
+</li>
+<li>A Valid Trip Schedule : A valid trip schedule for a trip set $TR$ satisfies three conditions:
+<ol>
+<li>Point order : $r_i \rightarrow s_i \rightarrow e_i$</li>
+<li>Waiting time constraint : $d_{T}(r_i,s_i) \leq w$</li>
+<li>Service constraint : $d_{T}(s_i,e_i) \leq (1+\epsilon)d(s_i, e_i)$</li>
+<li>Capacity limit</li>
+</ol>
+</li>
+<li>A low maintenance cost <strong>indexing method</strong> is needed to filter out servers outside the waiting time constraint.</li>
+</ol>
 <h2 id="4-method">4. Method</h2>
+<h3 id="41-kinetic-tree-approach">4.1. Kinetic Tree Approach</h3>
+<h4 id="411-basic-tree-structure">4.1.1. Basic Tree Structure</h4>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-7-1/method_1_hu1ef46a03612231377385dac6109b3650_100924_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-7-1/method_1_hu1ef46a03612231377385dac6109b3650_100924_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="666" height="698">
+</a>
+
+
+
+</figure>
+
+<h4 id="412-main-idea">4.1.2. Main Idea</h4>
+<p>When a server reaches a new pickup or dropoff location in the trip schedule, only those valid schedules which contain unfinished trips and share the same prefix so far (from the first pickup point of all the unfinished schedules to the current location in the trip schedule) need to be materialized. All other schedules become inactive and can be pruned from the tree.(<u>Only a valid trip schedule can be extended to accommodate a new request.</u>)</p>
+<h4 id="413-challenge">4.1.3. Challenge</h4>
+<p>The problem is how to determine:</p>
+<ol>
+<li>at which edge $s_k$ or $e_k$ can be inserted</li>
+<li>how to quickly prune the invalid trip schedules following that insertion</li>
+</ol>
+<h4 id="414-inserting-pickup-location">4.1.4. Inserting Pickup Location</h4>
+<ol>
+<li>We can perform either a depth first search (DFS) or breadth first search (BFS) starting from the root node of the tree to generate all the candidate edge $(x_i, x_{i+1})$ to insert $s_k$ .</li>
+<li>At any given point, the “active” customers can be partitioned into two sets:
+<ul>
+<li>$S_1$ records those customers who need to be picked up</li>
+<li>$S_2$ records the on-board customers who need to be dropped off</li>
+</ul>
+</li>
+<li>For the sub-tree rooted at $x_i$ , the simple way is to first generate these two sets $S_1$ and $S_2$ . Then, when we insert $s_k$ , we need to ensure each condition associated with $S_1$ and $S_2$ are also satisfied.</li>
+</ol>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-7-1/method_2_hu15fec19835209d0aa330835d07ee9807_121201_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-7-1/method_2_hu15fec19835209d0aa330835d07ee9807_121201_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="1558" height="468">
+</a>
+
+
+
+</figure>
+
+<h3 id="42-hotspot-based-optimization">4.2. Hotspot Based Optimization</h3>
+<p><strong>Motivation</strong> : The main problem with the basic tree algorithm is the exponential explosion of the size of the tree when there are multiple pickup or dropoff locations close to each other.</p>
+<ol>
+<li>When we insert a pickup point $s_k$ to an edge $(x_i, x_{i+1})$ , we check if $d(x_{i+1}, s_k) \leq \theta$ for small $\theta$ . If so, $s_k$ is inserted into the node of $x_{i+1}$ .</li>
+<li>$s_k$ and $x_{i+1}$ are treated as one point called a hotspot in the tree, and an arbitrary schedule is chosen between the points in a hotspot.</li>
+<li>When a hotspot contains more than one point, a newly inserted point must be within $\theta$ to all points of the hotspot.</li>
+<li>A similar procedure can be followed for dropoff points and mixtures of pickup and dropoffs.</li>
+<li>Once a point is combined with any hotspot, we stop trying to insert it to any other edges.</li>
+</ol>
 <h2 id="5-experiment">5. Experiment</h2>
+<p>Nothing special.</p>
 
     </div>
 
