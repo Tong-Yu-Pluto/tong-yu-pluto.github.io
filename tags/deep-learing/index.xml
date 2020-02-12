@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>deep learing | Tong Yu</title>
+    <link>/tags/deep-learing/</link>
+      <atom:link href="/tags/deep-learing/index.xml" rel="self" type="application/rss+xml" />
+    <description>deep learing</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 10 Feb 2020 19:29:15 +0800</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>deep learing</title>
+      <link>/tags/deep-learing/</link>
+    </image>
+    
+    <item>
+      <title>Paper Note - 2020/2/10</title>
+      <link>/post/2020-2-10-1/</link>
+      <pubDate>Mon, 10 Feb 2020 19:29:15 +0800</pubDate>
+      <guid>/post/2020-2-10-1/</guid>
+      <description>&lt;h2 id=&#34;1-scenario&#34;&gt;1. Scenario&lt;/h2&gt;
+&lt;p&gt;To hire a vehicle, a passenger simply types in her/his desired pick up location and destination in the app and sends the request to the service provider, who either forwards the request to some drivers close to the pick up location, or directly schedule a close-by driver to take the order.&lt;/p&gt;
+&lt;p&gt;However, there are some challenges of the problem:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The car-hailing supply-demand varies dynamically due to different geographic locations and time intervals.&lt;/li&gt;
+&lt;li&gt;The order data contains multiple attributes. These attributes together provide a wealth of information for supply-demand prediction. However, it is nontrivial how to use all the attributes in a unified model.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;2-motivation&#34;&gt;2. Motivation&lt;/h2&gt;
+&lt;p&gt;The paper&amp;rsquo;s &lt;strong&gt;goal&lt;/strong&gt; is to &lt;u&gt;predict the gap between the car-hailing supply and demand for a certain area in the next few minutes&lt;/u&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;3-preliminaries&#34;&gt;3. Preliminaries&lt;/h2&gt;
+&lt;h3 id=&#34;31-definition&#34;&gt;3.1. Definition&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Spatio-temporal Processing&lt;/strong&gt; :&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A city is divided into $N$ non-overlapping square areas $a_{1},a_{2},\cdots,a_{N}$ .&lt;/li&gt;
+&lt;li&gt;Each day is divided into 1440 timeslots(one minute for one timeslot).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Car-hailing Order&lt;/strong&gt; :
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-10-1/definition_1_hu3dffc4dcb433b4345a1119954d41295c_40814_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-10-1/definition_1_hu3dffc4dcb433b4345a1119954d41295c_40814_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;551&#34; height=&#34;431&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Supply-demand Gap&lt;/strong&gt; : For the $d$-th day, the supply-demand gap of the time interval $[t,t+C)$ in area $a$ is defined as &lt;u&gt;the total amount of invalid orders in this time interval&lt;/u&gt;.  The constant $C$ is set as 10.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Weather Condition&lt;/strong&gt; :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the weather type $wc.type$&lt;/li&gt;
+&lt;li&gt;the temperature $wc.temp$&lt;/li&gt;
+&lt;li&gt;the PM2.5 $wc.pm$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Traffic Condition&lt;/strong&gt; : The traffic condition describes the congestion level of road segments in each area.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-10-1/definition_2_hu654ce091b558ddc51ba703a425c36e8a_16449_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-10-1/definition_2_hu654ce091b558ddc51ba703a425c36e8a_16449_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;771&#34; height=&#34;81&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;32-problem&#34;&gt;3.2. Problem&lt;/h3&gt;
+&lt;p&gt;Suppose the current date is the $d$-th day and the current time slot is $t$ . Given the past order data and the past environment data, our goal is to predict the supply-demand gap $gap^{d,t}_{a}$ for every area $a$ , i.e., the supply-demand gap in the next 10 minutes.&lt;/p&gt;
+&lt;h3 id=&#34;33-embedding-method&#34;&gt;3.3. Embedding Method&lt;/h3&gt;
+&lt;p&gt;A function $f : X \rightarrow Y$ , satisfy two properties&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;injective&lt;/li&gt;
+&lt;li&gt;structure-preserving&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;34-residual-network&#34;&gt;3.4. Residual Network&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-10-1/definition_3_hu336ebc7c04ef908dc0e77915f0bf9cb9_14030_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-10-1/definition_3_hu336ebc7c04ef908dc0e77915f0bf9cb9_14030_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;312&#34; height=&#34;296&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h2 id=&#34;4-method&#34;&gt;4. Method&lt;/h2&gt;
+&lt;h3 id=&#34;41-basic-version&#34;&gt;4.1. Basic Version&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-10-1/method_1_hu59bccbcf4d822c4963c60812ca2fd14c_53855_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-10-1/method_1_hu59bccbcf4d822c4963c60812ca2fd14c_53855_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;732&#34; height=&#34;526&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h4 id=&#34;411-identity-part&#34;&gt;4.1.1. Identity Part&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;The identity features include the ID of area AreaID, the timeslot TimeID and the day of week (Monday, Tuesday, &amp;hellip;, Sunday) WeekID.&lt;/li&gt;
+&lt;li&gt;Different areas at different time can share similar supply-demand patterns, especially when they are spatio-temporally close.&lt;/li&gt;
+&lt;li&gt;The embedding method is used to reduce the feature dimensions and discover the similarities among different areas and timeslots.&lt;/li&gt;
+&lt;li&gt;The Concatenate Layer takes a list of vectors as the input and simply outputs the concatenation of the vectors, denoted as $X_{id}$ .&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-10-1/method_2_hu05cfdc1b27797480a4e0abc2483f172e_47429_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-10-1/method_2_hu05cfdc1b27797480a4e0abc2483f172e_47429_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;502&#34; height=&#34;276&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h4 id=&#34;412-order-part&#34;&gt;4.1.2. Order Part&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The supply-demand block can be regarded as a three layer perception, which processes the order data.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The input layer is a &lt;strong&gt;real-time supply-demand vector&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;We then pass it through two Fully-Connected layers.&lt;/li&gt;
+&lt;li&gt;The output of the supply-demand block is denoted as $X_{sd}$ .&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Real-time supply-demand vector&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;For a specific area $a$ , to predict the supply-demand gap $gap^{d,t}_{a}$ of the time interval $[t, t + 10)$ in the $d$-th day, we consider the order set with timestamp in $[t − L, t)$ of the $d$-th day, which we denote as $S^{d,t}$ .&lt;/li&gt;
+&lt;li&gt;For a specific area $a$ , we define the real-time supply-demand vector in the $d$-th day at timeslot $t$ as $V_{sd}^{d,t}$ .&lt;/li&gt;
+&lt;li&gt;$V_{sd}^{d,t}$ is a 2L-dimensional vector, which consists of two parts :
+&lt;ul&gt;
+&lt;li&gt;The first $L$ dimensions describe the amount of valid orders at $t-L$ in the current day.&lt;/li&gt;
+&lt;li&gt;The second $L$ dimensions correspond to the invalid orders in the previous $L$ minutes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-10-1/method_3_huba412e8c17b6be193c13503f58937574_60224_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-10-1/method_3_huba412e8c17b6be193c13503f58937574_60224_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;658&#34; height=&#34;347&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h4 id=&#34;413-environment-part&#34;&gt;4.1.3. Environment Part&lt;/h4&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-10-1/method_4_hu03c63d017adb013fe4f0177103091bd0_67445_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-10-1/method_4_hu03c63d017adb013fe4f0177103091bd0_67445_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;755&#34; height=&#34;661&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h4 id=&#34;42-advanced-version&#34;&gt;4.2. Advanced Version&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Extended Order Part&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-10-1/method_5_hu0e8c5e331888f5d3fea476b93648c330_30477_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-10-1/method_5_hu0e8c5e331888f5d3fea476b93648c330_30477_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;551&#34; height=&#34;370&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;Historical supply-demand vector&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-10-1/method_6_hu088da2e61473079f8c62e2e6d158a635_29923_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-10-1/method_6_hu088da2e61473079f8c62e2e6d158a635_29923_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;731&#34; height=&#34;368&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;Extended Supply-demand Block&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-10-1/method_7_hu8198f7966b4f561b8854888ee9279832_33732_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-10-1/method_7_hu8198f7966b4f561b8854888ee9279832_33732_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;672&#34; height=&#34;414&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h2 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Data set&lt;/strong&gt; : the public dataset released by Didi in the Di-tech supply-demand prediction competition&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

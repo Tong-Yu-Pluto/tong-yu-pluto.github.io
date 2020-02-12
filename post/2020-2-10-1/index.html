@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Tong Yu">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="(ICDE 2017) DeepSD: Supply-Demand Prediction for Online Car-Hailing Services Using Deep Neural Networks.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/2020-2-10-1/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="rgb(251, 191, 183)">
+  
+
+  
+  
+  
+  <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css" integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cutive+Mono%7CLora:400,700%7CRoboto:400,700&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/post/2020-2-10-1/">
+
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Tong Yu">
+  <meta property="og:url" content="/post/2020-2-10-1/">
+  <meta property="og:title" content="Paper Note - 2020/2/10 | Tong Yu">
+  <meta property="og:description" content="(ICDE 2017) DeepSD: Supply-Demand Prediction for Online Car-Hailing Services Using Deep Neural Networks."><meta property="og:image" content="/post/2020-2-10-1/featured.png">
+  <meta property="twitter:image" content="/post/2020-2-10-1/featured.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2020-02-10T19:29:15&#43;08:00">
+    
+    <meta property="article:modified_time" content="2020-02-10T19:29:15&#43;08:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/2020-2-10-1/"
+  },
+  "headline": "Paper Note - 2020/2/10",
+  
+  "image": [
+    "/post/2020-2-10-1/featured.png"
+  ],
+  
+  "datePublished": "2020-02-10T19:29:15+08:00",
+  "dateModified": "2020-02-10T19:29:15+08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Tong Yu"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tong Yu",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "img//"
+    }
+  },
+  "description": "(ICDE 2017) DeepSD: Supply-Demand Prediction for Online Car-Hailing Services Using Deep Neural Networks."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Paper Note - 2020/2/10 | Tong Yu</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Tong Yu</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Tong Yu</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+
+<div class="article-container pt-3">
+  <h1>Paper Note - 2020/2/10</h1>
+
+  
+  <p class="page-subtitle">(ICDE 2017) DeepSD: Supply-Demand Prediction for Online Car-Hailing Services Using Deep Neural Networks.</p>
+  
+
+  
+
+
+<div class="article-metadata">
+
+  
+  
+  
+  
+  <div>
+    
+
+
+
+  
+  <span><a href="/authors/tong-yu/">Tong Yu</a></span>
+
+  </div>
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Feb 10, 2020
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    3 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/categories/paper-note-icde/">Paper Note - ICDE</a></span>
+  
+
+</div>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+<div class="article-header article-container featured-image-wrapper mt-4 mb-4" style="max-width: 720px; max-height: 281px;">
+  <div style="position: relative">
+    <img src="/post/2020-2-10-1/featured_hu46be6dcd5eef7ccd8a5cb8858bface5c_127599_720x0_resize_lanczos_2.png" alt="" class="featured-image">
+    
+  </div>
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <h2 id="1-scenario">1. Scenario</h2>
+<p>To hire a vehicle, a passenger simply types in her/his desired pick up location and destination in the app and sends the request to the service provider, who either forwards the request to some drivers close to the pick up location, or directly schedule a close-by driver to take the order.</p>
+<p>However, there are some challenges of the problem:</p>
+<ol>
+<li>The car-hailing supply-demand varies dynamically due to different geographic locations and time intervals.</li>
+<li>The order data contains multiple attributes. These attributes together provide a wealth of information for supply-demand prediction. However, it is nontrivial how to use all the attributes in a unified model.</li>
+</ol>
+<h2 id="2-motivation">2. Motivation</h2>
+<p>The paper&rsquo;s <strong>goal</strong> is to <u>predict the gap between the car-hailing supply and demand for a certain area in the next few minutes</u>.</p>
+<h2 id="3-preliminaries">3. Preliminaries</h2>
+<h3 id="31-definition">3.1. Definition</h3>
+<ol>
+<li>
+<p><strong>Spatio-temporal Processing</strong> :</p>
+<ol>
+<li>A city is divided into $N$ non-overlapping square areas $a_{1},a_{2},\cdots,a_{N}$ .</li>
+<li>Each day is divided into 1440 timeslots(one minute for one timeslot).</li>
+</ol>
+</li>
+<li>
+<p><strong>Car-hailing Order</strong> :
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-10-1/definition_1_hu3dffc4dcb433b4345a1119954d41295c_40814_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-10-1/definition_1_hu3dffc4dcb433b4345a1119954d41295c_40814_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="551" height="431">
+</a>
+
+
+
+</figure>
+</p>
+</li>
+<li>
+<p><strong>Supply-demand Gap</strong> : For the $d$-th day, the supply-demand gap of the time interval $[t,t+C)$ in area $a$ is defined as <u>the total amount of invalid orders in this time interval</u>.  The constant $C$ is set as 10.</p>
+</li>
+<li>
+<p><strong>Weather Condition</strong> :</p>
+<ul>
+<li>the weather type $wc.type$</li>
+<li>the temperature $wc.temp$</li>
+<li>the PM2.5 $wc.pm$</li>
+</ul>
+</li>
+<li>
+<p><strong>Traffic Condition</strong> : The traffic condition describes the congestion level of road segments in each area.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-10-1/definition_2_hu654ce091b558ddc51ba703a425c36e8a_16449_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-10-1/definition_2_hu654ce091b558ddc51ba703a425c36e8a_16449_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="771" height="81">
+</a>
+
+
+
+</figure>
+</p>
+</li>
+</ol>
+<h3 id="32-problem">3.2. Problem</h3>
+<p>Suppose the current date is the $d$-th day and the current time slot is $t$ . Given the past order data and the past environment data, our goal is to predict the supply-demand gap $gap^{d,t}_{a}$ for every area $a$ , i.e., the supply-demand gap in the next 10 minutes.</p>
+<h3 id="33-embedding-method">3.3. Embedding Method</h3>
+<p>A function $f : X \rightarrow Y$ , satisfy two properties</p>
+<ol>
+<li>injective</li>
+<li>structure-preserving</li>
+</ol>
+<h3 id="34-residual-network">3.4. Residual Network</h3>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-10-1/definition_3_hu336ebc7c04ef908dc0e77915f0bf9cb9_14030_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-10-1/definition_3_hu336ebc7c04ef908dc0e77915f0bf9cb9_14030_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="312" height="296">
+</a>
+
+
+
+</figure>
+
+<h2 id="4-method">4. Method</h2>
+<h3 id="41-basic-version">4.1. Basic Version</h3>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-10-1/method_1_hu59bccbcf4d822c4963c60812ca2fd14c_53855_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-10-1/method_1_hu59bccbcf4d822c4963c60812ca2fd14c_53855_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="732" height="526">
+</a>
+
+
+
+</figure>
+
+<h4 id="411-identity-part">4.1.1. Identity Part</h4>
+<ol>
+<li>The identity features include the ID of area AreaID, the timeslot TimeID and the day of week (Monday, Tuesday, &hellip;, Sunday) WeekID.</li>
+<li>Different areas at different time can share similar supply-demand patterns, especially when they are spatio-temporally close.</li>
+<li>The embedding method is used to reduce the feature dimensions and discover the similarities among different areas and timeslots.</li>
+<li>The Concatenate Layer takes a list of vectors as the input and simply outputs the concatenation of the vectors, denoted as $X_{id}$ .</li>
+</ol>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-10-1/method_2_hu05cfdc1b27797480a4e0abc2483f172e_47429_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-10-1/method_2_hu05cfdc1b27797480a4e0abc2483f172e_47429_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="502" height="276">
+</a>
+
+
+
+</figure>
+
+<h4 id="412-order-part">4.1.2. Order Part</h4>
+<ol>
+<li>
+<p>The supply-demand block can be regarded as a three layer perception, which processes the order data.</p>
+<ol>
+<li>The input layer is a <strong>real-time supply-demand vector</strong>.</li>
+<li>We then pass it through two Fully-Connected layers.</li>
+<li>The output of the supply-demand block is denoted as $X_{sd}$ .</li>
+</ol>
+</li>
+<li>
+<p><strong>Real-time supply-demand vector</strong></p>
+<ol>
+<li>For a specific area $a$ , to predict the supply-demand gap $gap^{d,t}_{a}$ of the time interval $[t, t + 10)$ in the $d$-th day, we consider the order set with timestamp in $[t − L, t)$ of the $d$-th day, which we denote as $S^{d,t}$ .</li>
+<li>For a specific area $a$ , we define the real-time supply-demand vector in the $d$-th day at timeslot $t$ as $V_{sd}^{d,t}$ .</li>
+<li>$V_{sd}^{d,t}$ is a 2L-dimensional vector, which consists of two parts :
+<ul>
+<li>The first $L$ dimensions describe the amount of valid orders at $t-L$ in the current day.</li>
+<li>The second $L$ dimensions correspond to the invalid orders in the previous $L$ minutes.</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-10-1/method_3_huba412e8c17b6be193c13503f58937574_60224_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-10-1/method_3_huba412e8c17b6be193c13503f58937574_60224_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="658" height="347">
+</a>
+
+
+
+</figure>
+
+<h4 id="413-environment-part">4.1.3. Environment Part</h4>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-10-1/method_4_hu03c63d017adb013fe4f0177103091bd0_67445_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-10-1/method_4_hu03c63d017adb013fe4f0177103091bd0_67445_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="755" height="661">
+</a>
+
+
+
+</figure>
+
+<h4 id="42-advanced-version">4.2. Advanced Version</h4>
+<ol>
+<li>Extended Order Part</li>
+</ol>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-10-1/method_5_hu0e8c5e331888f5d3fea476b93648c330_30477_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-10-1/method_5_hu0e8c5e331888f5d3fea476b93648c330_30477_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="551" height="370">
+</a>
+
+
+
+</figure>
+
+<ol start="2">
+<li>Historical supply-demand vector</li>
+</ol>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-10-1/method_6_hu088da2e61473079f8c62e2e6d158a635_29923_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-10-1/method_6_hu088da2e61473079f8c62e2e6d158a635_29923_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="731" height="368">
+</a>
+
+
+
+</figure>
+
+<ol start="3">
+<li>Extended Supply-demand Block</li>
+</ol>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/2020-2-10-1/method_7_hu8198f7966b4f561b8854888ee9279832_33732_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/2020-2-10-1/method_7_hu8198f7966b4f561b8854888ee9279832_33732_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="672" height="414">
+</a>
+
+
+
+</figure>
+
+<h2 id="5-experiment">5. Experiment</h2>
+<p><strong>Data set</strong> : the public dataset released by Didi in the Di-tech supply-demand prediction competition</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/ridesharing/">ridesharing</a>
+  
+  <a class="badge badge-light" href="/tags/supply-demand-predicting/">supply-demand predicting</a>
+  
+  <a class="badge badge-light" href="/tags/deep-learing/">deep learing</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/authors/tong-yu/"></a></h5>
+      
+      
+      <ul class="network-icon" aria-hidden="true">
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/2020-2-7-1/">Paper Note - 2020/2/7</a></li>
+      
+      <li><a href="/post/2020-2-5-1/">Paper Note - 2020/2/5</a></li>
+      
+      <li><a href="/post/2020-2-4-1/">Paper Note - 2020/2/4</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js" integrity="sha256-JEqEejGt4tR35L0a1zodzsV0/PJ6GIf7J4yDtywdrH8=" crossorigin="anonymous" title="mermaid"></script>
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.0630fec5958cb075a5a38f042b3ddde6.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
