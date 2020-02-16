@@ -5,12 +5,255 @@
     <link>/post/</link>
       <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 10 Feb 2020 19:29:15 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 12 Feb 2020 18:48:20 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Posts</title>
       <link>/post/</link>
     </image>
+    
+    <item>
+      <title>Paper Note - 2020/2/12</title>
+      <link>/post/2020-2-12-1/</link>
+      <pubDate>Wed, 12 Feb 2020 18:48:20 +0800</pubDate>
+      <guid>/post/2020-2-12-1/</guid>
+      <description>&lt;h2 id=&#34;1-scenario&#34;&gt;1. Scenario&lt;/h2&gt;
+&lt;p&gt;Dynamic peer-to-peer ride sharing.&lt;/p&gt;
+&lt;h2 id=&#34;2-motivation&#34;&gt;2. Motivation&lt;/h2&gt;
+&lt;p&gt;This paper proposes&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;a hierarchical discretization of the geographical region using grids, landmarks and clusters with theoretical guarantees&lt;/li&gt;
+&lt;li&gt;an efficient in-memory indexing of rides for maintaining spatio-temporal validity within a specified error tolerance&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;3-system-overview&#34;&gt;3. System Overview&lt;/h2&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-12-1/overview_hub884fbe196ff49b837e613841b2ee2a5_46173_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-12-1/overview_hub884fbe196ff49b837e613841b2ee2a5_46173_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;793&#34; height=&#34;474&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;XAR requires pre-processing of the geographical region where the system will be used.&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The map-processor module in the pre-processing unit uses geographic information of the city from OpenStreetMap(OSM) to create grids and extract landmarks.&lt;/li&gt;
+&lt;li&gt;Further, these landmarks are grouped together into clusters by the clustering module, using route information from OpenTripPlanner(OTP).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;XAR run-time unit kicks in when the system is actually deployed.&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This unit provides functionalities like creating a ride offer in the system, finding matching rides for a request, booking seats in a matched ride and tracking rides in progress in real-time.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;4-method&#34;&gt;4. Method&lt;/h2&gt;
+&lt;h3 id=&#34;41-hierarchical-three-tiered-region-discretization&#34;&gt;4.1. Hierarchical Three-tiered Region Discretization&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-12-1/method_1_hu28a9df1509d2f0dd946215cba8436c21_13989_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-12-1/method_1_hu28a9df1509d2f0dd946215cba8436c21_13989_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;257&#34; height=&#34;301&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;ol&gt;
+&lt;li&gt;A &lt;strong&gt;grid&lt;/strong&gt; is defined as a bounded square geographical region.
+&lt;ul&gt;
+&lt;li&gt;Any location is numerically mapped to a unique (implicit) grid, given its latitude and longitude.&lt;/li&gt;
+&lt;li&gt;We identify a grid by its centroid, and henceforth wherever we refer to distances from a grid, these are measured with respect to the centroid of the grid.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A &lt;strong&gt;landmark&lt;/strong&gt; is a point of interest in a geographical region, such as a bus stop, a mall or an important building, such that it is sufficiently far (at least a pre-specified $f$ distance away) from any other landmark.
+&lt;ul&gt;
+&lt;li&gt;Each landmark is associated with a set of grids, and each grid is associated with a unique landmark, that minimizes the maximum driving distance of the grid from the landmark.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A &lt;strong&gt;cluster&lt;/strong&gt; is defined as a collection of landmarks, such that no pair of landmarks in a cluster are more than a specified δ driving distance away.&lt;/li&gt;
+&lt;li&gt;With each grid, apart from the nearest landmark information, we additionally maintain a list of &amp;ldquo;walkable clusters&amp;rdquo;.
+&lt;ul&gt;
+&lt;li&gt;Walkable clusters of a grid are maintained as a list of tuples: $&amp;lt;C,w&amp;gt;$ , where $w$ is the distance of the nearest landmark in the cluster $C$ from the grid, and $w \leq W$ , where $W$ is another system parameter defining the maximum walking distance allowed by the system.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;42-finding-the-clusters&#34;&gt;4.2. Finding the Clusters&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Clusterminimization Problem&lt;/strong&gt; : The first step is to filter the set of landmarks to ensure that no two landmarks are located too close ($&amp;lt;f$ distance, where $f$ is a system parameter) to each other, as that would defy the purpose. At the same time, every landmark should be associated with a distinct cluster, and the number of clusters stored should be minimized, as otherwise, the efficiency of search query would be affected and we want to optimize the storage required in the RAM.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-12-1/method_2_hubc61da1ffad89472c7ff0d95347a112c_39786_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-12-1/method_2_hubc61da1ffad89472c7ff0d95347a112c_39786_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;737&#34; height=&#34;358&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Notations
+&lt;ol&gt;
+&lt;li&gt;$V$ : the set of (filtered) distinct landmarks, $|V|=n$ .&lt;/li&gt;
+&lt;li&gt;$x_{i,j}$ : denote if landmark $i$ is mapped to the $j^{th}$ cluster.&lt;/li&gt;
+&lt;li&gt;$m$ : the number of clusters used.&lt;/li&gt;
+&lt;li&gt;$y_{j}$ : whether $j^{th}$ cluster is used.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;The fourth inequality states that if two landmarks are part of the same cluster, then their pairwise distance should be at most $\delta$ .&lt;/li&gt;
+&lt;li&gt;The underlying problem setting can be represented as an unweighted graph, where landmarks are vertices, and an edge between any two vertices exist if and only if the distance between the corresponding landmarks is $\leq \delta$ . Now, in this unweighted graph, the problem is equivalent to &lt;strong&gt;partition the graph in to min number of cliques&lt;/strong&gt;, such that every vertex is part of a clique.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;43-indexing-structure-for-efficient-searching&#34;&gt;4.3. Indexing Structure for Efficient Searching&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;entities that characterize a ride in XAR
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-12-1/method_3_huc865ac110cde490d977d5ae16740855d_223139_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-12-1/method_3_huc865ac110cde490d977d5ae16740855d_223139_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;752&#34; height=&#34;722&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Each cluster has a list of rides associated with it as potential rides. With each cluster $C$ , this information is maintained as a list of tuples of the form: $&amp;lt;r,t &amp;gt;$ , where $r$ denotes a ride in the system, and $t$ is the estimated time of arrival of the ride in the cluster $C$ .&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Each ride created in the system is assigned a unique ride ID.&lt;/li&gt;
+&lt;li&gt;The time of arrival is estimated from historical travel times.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The main idea is that any request originating in the reachable clusters of a pass-through cluster of a ride is a potential feasible match for the ride, and this can be determined dynamically too, while the vehicle is passing through the passthrough cluster. Once we identify the pass-through cluster and their associated reachable clusters for every segment of the route of a ride, the ride gets added to the list of potential rides associated with each of these clusters, maintaining the sorted order of the lists.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-12-1/method_4_hu6040f9ab68b6ae13af53e0b3f08882d2_240321_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-12-1/method_4_hu6040f9ab68b6ae13af53e0b3f08882d2_240321_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;1254&#34; height=&#34;811&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h2 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;OpenStreetMap&lt;/li&gt;
+&lt;li&gt;OpenTripPlanner&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
     
     <item>
       <title>Paper Note - 2020/2/10</title>

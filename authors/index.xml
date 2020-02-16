@@ -5,7 +5,7 @@
     <link>/authors/</link>
       <atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
     <description>Authors</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 10 Feb 2020 19:29:15 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 12 Feb 2020 18:48:20 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Authors</title>
@@ -15,7 +15,7 @@
     <item>
       <title>Tong Yu</title>
       <link>/authors/tong-yu/</link>
-      <pubDate>Mon, 10 Feb 2020 19:29:15 +0800</pubDate>
+      <pubDate>Wed, 12 Feb 2020 18:48:20 +0800</pubDate>
       <guid>/authors/tong-yu/</guid>
       <description></description>
     </item>
