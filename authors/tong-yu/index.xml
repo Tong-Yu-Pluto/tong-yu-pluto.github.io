@@ -5,12 +5,215 @@
     <link>/authors/tong-yu/</link>
       <atom:link href="/authors/tong-yu/index.xml" rel="self" type="application/rss+xml" />
     <description>Tong Yu</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 12 Feb 2020 18:48:20 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 17 Feb 2020 13:18:21 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Tong Yu</title>
       <link>/authors/tong-yu/</link>
     </image>
+    
+    <item>
+      <title>Paper Note - 2020/2/17</title>
+      <link>/post/2020-2-17-1/</link>
+      <pubDate>Mon, 17 Feb 2020 13:18:21 +0800</pubDate>
+      <guid>/post/2020-2-17-1/</guid>
+      <description>&lt;h2 id=&#34;1-scenario&#34;&gt;1. Scenario&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Ridesharing refers to a transportation scenario where travellers with similar itineraries and time schedules share a vehicle for a trip and split the travel costs such as fuel, tolls, and parking fees.&lt;/li&gt;
+&lt;li&gt;When travellers need to travel to some destination, they often &lt;strong&gt;have several options&lt;/strong&gt; to choose among. In such a setting, the cost and travel time of an option are important decision criteria.&lt;/li&gt;
+&lt;li&gt;In the paper, it&amp;rsquo;s assumed that the destination of a vehicle is not limited and that it can accommodate any number of rider groups during a trip as long as it satisfies a capacity constraint.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;2-motivation&#34;&gt;2. Motivation&lt;/h2&gt;
+&lt;p&gt;Given a set of vehicles $C$ in the road network $G$ at a specific time and a real-time trip request set $S_{R}$ , dynamic ridesharing finds, for each trip request $R \in S_{R}$ , &lt;u&gt;all qualified and non-dominated results &lt;/u&gt; $&amp;lt;c, time, price&amp;gt;$ .&lt;/p&gt;
+&lt;h2 id=&#34;3-preliminaries&#34;&gt;3. Preliminaries&lt;/h2&gt;
+&lt;h3 id=&#34;31-symbols&#34;&gt;3.1. Symbols&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-17-1/symbol_hu0609361d40184b3cb86646c0ec4482bd_209770_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-17-1/symbol_hu0609361d40184b3cb86646c0ec4482bd_209770_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;744&#34; height=&#34;671&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;32-definition&#34;&gt;3.2. Definition&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Ridesharing Request&lt;/strong&gt; : A ridesharing request $R=&amp;lt;s,d,n,w,\epsilon&amp;gt;$ on a road network $G$ is defined by a start location $s$ , a destination location $d$ ,  a number $n$ of riders, a maximal waiting time $w$ , and a service constraint $\epsilon$ .&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Vehicle Trip Schedule&lt;/strong&gt; : Each trip schedule $tr=&amp;lt;o_{1},o_{2},\cdots,o_{k}&amp;gt;$ contains a sequence of locations, where $o_{1}$ is the current location $c.l$ of vehicle $c$ , and $o_{i}$ $(2 \leq i \leq k)$ denotes the start location or destination of an unfinished ridesharing request.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Schedule Constraint&lt;/strong&gt; : A valid trip schedule needs to satisfy the four following conditions
+&lt;ol&gt;
+&lt;li&gt;Capacity constraint&lt;/li&gt;
+&lt;li&gt;Point order&lt;/li&gt;
+&lt;li&gt;Waiting time constraint&lt;/li&gt;
+&lt;li&gt;Service constraint&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Price Model&lt;/strong&gt; :  For a ridesharing request $R=&amp;lt;s,d,w,n,\epsilon&amp;gt;$ , assume that $tr_{i}$ is the current trip schedule of a vehicle $c$ and $tr_{i}$ is the new trip schedule after inserting $R$ into $tr_{i}$ , the price is computed  as $f_{n} \times (dist_{tr_{j}}-dist_{tr_{i}}+dist(s,d))$ , where $f_n$ is price ratio that depends on the number $n$ of riders.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;4-method&#34;&gt;4. Method&lt;/h2&gt;
+&lt;h3 id=&#34;41-index-structures&#34;&gt;4.1. Index Structures&lt;/h3&gt;
+&lt;h4 id=&#34;411-road-network-indexing&#34;&gt;4.1.1. Road Network Indexing&lt;/h4&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-17-1/method_1_hub8b1d46d20ff19fb3758aa4ae0691b19_111644_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-17-1/method_1_hub8b1d46d20ff19fb3758aa4ae0691b19_111644_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;1053&#34; height=&#34;372&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;ol&gt;
+&lt;li&gt;If an edge $e=(u,v)$ belongs to more than one grid cell, we call $u$ and $v$ &lt;strong&gt;border vertices&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;To estimate the shortest path distance precisely, we maintain a matrix $M$ that stores the lower bound distance for every grid cell pair.&lt;/li&gt;
+&lt;li&gt;Each grid cell maintains five lists :
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;border vertex list&lt;/strong&gt; : border vertices belonging to the grid cell&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;vertex list&lt;/strong&gt; : vertices belonging to the grid cell, as each vertex $v$ is associated with its &lt;u&gt;shortest path distances&lt;/u&gt; to the border vertices ($BV$) of the grid cell ($\{ &amp;lt; u,dist(v,u) &amp;gt; | u \in BV \}$) and is also associated with $\min \{ dist(v,u)  | u \in BV \} $ (denoted as $v.min$ )&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;grid cell list&lt;/strong&gt; : other grid cells sorted in ascending order of the travel time from these grid cells to the grid cell.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;empty vehicle list&lt;/strong&gt; :  vehicles with empty ridesharing requests in $g_{i}$&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;non-empty vehicle list&lt;/strong&gt; : vehicles $c_j$ with a non-empty set of ridesharing requests, i.e., vehicles $c_j$ are currently located in $g_j$ or are scheduled to enter $g_{i}$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Lower Bound Distance&lt;/strong&gt; : Given a vertex $u$ in a grid cell $g_i$ and a vertex $v$ in a grid cell $g_j$ , if $g_i \neq g_j$ , then the lower bound distance $ldist(u, v) = D_{ij} + u.min + v.min$ ; if $gi = gj$ , then $ldist(u, v) = 0$ .&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Upper Bound Distance&lt;/strong&gt; : if $g_i \neq g_j$ , then the upper bound distance $udist(u, v) = D_{ij} + dist(u, x_{ij}) + dist(v, y_{ij})$ ; if $g_i = g_j$ , then $udist(u, v) = \min \{dist(u, b) + dist(v, b) | b \in BV \}$ .&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;412-index-of-vehicle-trip-schedules&#34;&gt;4.1.2. Index of Vehicle Trip Schedules&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Representation of each vehicle $c$ :
+&lt;ol&gt;
+&lt;li&gt;the unique identifier $c.ID$ of the vehicle&lt;/li&gt;
+&lt;li&gt;the current location $c.l$ of the vehicle&lt;/li&gt;
+&lt;li&gt;the set $c.S$ of unfinished ridesharing requests assigned to it, sorted in ascending order of their timestamps&lt;/li&gt;
+&lt;li&gt;the set $c.S_{tr}$ of all valid vehicle trip schedules&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;The set $c.S_{tr}$ of all valid vehicle trip schedules can be managed by a 
+&lt;a href=&#34;https://tong-yu-pluto.github.io/post/2020-2-7-1/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;kinetic tree&lt;/a&gt;
+. &lt;u&gt;Three variables are added&lt;/u&gt; to each node $o_x$ of the kinetic tree :
+&lt;ol&gt;
+&lt;li&gt;a current vehicle’s capacity&lt;/li&gt;
+&lt;li&gt;the minimal detour distance allowed&lt;/li&gt;
+&lt;li&gt;the trip distance disttr from $c$’s current location to $o_x$
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-17-1/method_2_hu33ad4396c989b445384c3081596e05ce_100835_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-17-1/method_2_hu33ad4396c989b445384c3081596e05ce_100835_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;865&#34; height=&#34;478&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;The following global information of each grid cell $g_j$ is maintained to facilitate the pruning of a whole grid cell :
+&lt;ol&gt;
+&lt;li&gt;the maximum capacity : $\max \{ o_x.capacity | &amp;lt;o_x, o_y&amp;gt; \in  g_j \}$&lt;/li&gt;
+&lt;li&gt;the maximal detour allowed : $\max \{ o_x.detour | &amp;lt;o_x, o_y&amp;gt; \in  g_j \}$&lt;/li&gt;
+&lt;li&gt;the minimal trip distance : $dist_{tr}=\min \{ o_x.dist_{tr} | &amp;lt;o_x, o_y&amp;gt; \in  g_j \}$&lt;/li&gt;
+&lt;li&gt;the maximal shortest path distance : $dist=\max \{ dist(o_x,o_y) | &amp;lt;o_x,o_y&amp;gt; \in g_j \}$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;42-pruning-heuristics&#34;&gt;4.2. Pruning Heuristics&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Main Idea&lt;/strong&gt; : Based on the designed road network and vehicle indexes, we use the lower and upper bound distances instead of the actual shortest path distances to estimate pick-up time and price for filtering.&lt;/p&gt;
+&lt;h4 id=&#34;421-pruning-empty-vehicles&#34;&gt;4.2.1. Pruning Empty Vehicles&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Given a current valid result $r_i$, we try to derive :
+&lt;ol&gt;
+&lt;li&gt;the pruning conditions implying that the estimated result $r_j$ (i.e., the lower bound values) returned by $c_j$ is dominated by $r_i$&lt;/li&gt;
+&lt;li&gt;the pruning conditions implying that $r_j$ (i.e., the upper bound values) returned by $c_j$ dominates $r_i$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;Based on the main idea, we can filter out invalid vehicles and grids.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;422-pruning-non-empty-vehicles&#34;&gt;4.2.2. Pruning Non-Empty Vehicles&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Pruning for inserting start location $s$ .&lt;/li&gt;
+&lt;li&gt;Pruning for inserting destination location $d$ .&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;43-ridesharing-matching-algorithms&#34;&gt;4.3. Ridesharing Matching Algorithms&lt;/h3&gt;
+&lt;p&gt;refer to 
+&lt;a href=&#34;https://tong-yu-pluto.github.io/post/2020-2-4-1/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Tshare&lt;/a&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h2&gt;
+&lt;p&gt;experiments on effect of&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;the Number of Verified Grid Cells&lt;/li&gt;
+&lt;li&gt;Waiting Time&lt;/li&gt;
+&lt;li&gt;Service Constraint&lt;/li&gt;
+&lt;li&gt;Capacity of Vehicle&lt;/li&gt;
+&lt;li&gt;Number of Vehicles&lt;/li&gt;
+&lt;li&gt;Grid Cell Size&lt;/li&gt;
+&lt;li&gt;the Number of Requests&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
     
     <item>
       <title>Paper Note - 2020/2/12</title>
