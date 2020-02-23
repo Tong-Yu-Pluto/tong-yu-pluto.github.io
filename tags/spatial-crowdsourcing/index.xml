@@ -5,12 +5,278 @@
     <link>/tags/spatial-crowdsourcing/</link>
       <atom:link href="/tags/spatial-crowdsourcing/index.xml" rel="self" type="application/rss+xml" />
     <description>spatial crowdsourcing</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 17 Feb 2020 13:18:21 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 22 Feb 2020 15:10:51 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>spatial crowdsourcing</title>
       <link>/tags/spatial-crowdsourcing/</link>
     </image>
+    
+    <item>
+      <title>Paper Note - 2020/2/22</title>
+      <link>/post/2020-2-22-1/</link>
+      <pubDate>Sat, 22 Feb 2020 15:10:51 +0800</pubDate>
+      <guid>/post/2020-2-22-1/</guid>
+      <description>&lt;h2 id=&#34;1-scenario&#34;&gt;1. Scenario&lt;/h2&gt;
+&lt;p&gt;Vehicle shortage is not uncommon in popular ridesharing platforms. The shortage of vehicle disables the platform from dispatching all orders immediately, and some requesters would have to wait if their orders are pended. In practice, requesters who are anxious and not cost-sensitive, may wish to pay more to get dispatch priority.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;An auction-based order dispatch and pricing mechanism are proposed.&lt;/strong&gt; In this auction mechanism, the requesters(riders) act as buyers. They submit origins &amp;amp; destinations and bids to the platform server. With bids, the requesters claim the amount of money they would like to pay to take the service. The platform acts as the auctioneer, selling the shard-rides to requesters. With respect to their bids, the platform computes a dispatch, and decides the final payments of dispatched requesters.&lt;/p&gt;
+&lt;h2 id=&#34;2-motivation&#34;&gt;2. Motivation&lt;/h2&gt;
+&lt;p&gt;The proposed algorithms manage to maximize the overall utility of the auction, which is comprised of requesters’ utility, drivers’ utility, and platform’s utility.&lt;/p&gt;
+&lt;h2 id=&#34;3-preliminaries&#34;&gt;3. Preliminaries&lt;/h2&gt;
+&lt;h3 id=&#34;31-symbols&#34;&gt;3.1. Symbols&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-22-1/symbol_hu3dd0bc9f55fadd58d3e60c6aafe9c868_104313_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-22-1/symbol_hu3dd0bc9f55fadd58d3e60c6aafe9c868_104313_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;776&#34; height=&#34;465&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;32-entity-models&#34;&gt;3.2. Entity Models&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;We adopt the round-based order dispatch model for our mechanism. In each round, the platform server operates on a set of pended orders and online vehicles to optimize some objectives.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Wasted time&lt;/strong&gt; :  the wasted time of a dispatched requester $r_j$ is $wt_j + dt_j$
+&lt;ul&gt;
+&lt;li&gt;$wt_j$ : his/her waiting time during pick-up&lt;/li&gt;
+&lt;li&gt;$dt_j$ : his/her detour time during delivery&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Requester&lt;/strong&gt; : a requester rj is represented by a tuple $&amp;lt;s_j,e_j,\theta_j,val_j,bid_j&amp;gt;$
+&lt;ul&gt;
+&lt;li&gt;$s_j$ and $e_j$ : starting and ending geographical locations of its trip&lt;/li&gt;
+&lt;li&gt;$val_j$ and $bid_j$ : $r_j$’s valuation of the service and bid to the platform respectively&lt;/li&gt;
+&lt;li&gt;$\theta_j$ : his/her maximum allowed amount of wasted time during pick-up and delivery&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Vehicle&lt;/strong&gt; : $&amp;lt;l_i,pl_i&amp;gt;$
+&lt;ul&gt;
+&lt;li&gt;$l_i$ : its current location&lt;/li&gt;
+&lt;li&gt;$pl_i$ : its travel plan&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Validity of travel plans&lt;/strong&gt; : precedence constraint, capacity constraint, time constraint&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Payments to vehicles&lt;/strong&gt; : We assume platform’s payment to a vehicle is proportional to its travel distance after it picks up the first rider. Let $rev_i$ denote the revenue of $v_i$ .
+&lt;ul&gt;
+&lt;li&gt;$rev_i = \beta_d * D_i$&lt;/li&gt;
+&lt;li&gt;$\beta_d$ : the payment to vehicle per unit travel distance&lt;/li&gt;
+&lt;li&gt;$D_i$ : the travel distance of $v_i$ during delivery&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;33-problem-formulation&#34;&gt;3.3. Problem Formulation&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Requester’s utility&lt;/strong&gt; : $u_j = (val_j - pay_j) \cdot x_j$&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$x_j$ equals 1 if the order of $r_j$ is dispatched, or 0 otherwise&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Platform’s utility&lt;/strong&gt; : $U_{plf} = \sum_{r_j \in \hat{R}}{pay_j} - \sum_{v_i}{rev_i}$&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$\hat{R}$ : the set of dispatched requesters&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Driver’s utility&lt;/strong&gt; : $u_i = rev_i -\alpha_d D_i = (\beta_d - \alpha_d)D_i$&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$\alpha_d$ : measures the labor &amp;amp; fuel cost per unit travel distance&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Overall utility&lt;/strong&gt; : The utility of truthful auction in ridesharing is defined as the sum of requesters’ utilities, platform’s utility, and drivers’ utilities, i.e..
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-22-1/utility_hud7c2f055f314aea9d813532436946f75_45896_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-22-1/utility_hud7c2f055f314aea9d813532436946f75_45896_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;881&#34; height=&#34;325&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$bid_j = val_j$ because of auction truthfulness&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Order dispatch problem&lt;/strong&gt; : Given inputs of requester set $R$ and vehicle set $V$ , the order dispatch problem in auction-based ridesharing is to dispatch requesters $r_j \in R$ to vehicles $v_i \in V$ such that the overall utility is maximized.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Order pricing problem&lt;/strong&gt; : The order pricing problem is to determine the payment for each dispatched requester such that the auction mechanism &lt;strong&gt;satisfies the following properties&lt;/strong&gt;: truthfulness, individual rationality, profitability and computational efficiency.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Truthfulness&lt;/strong&gt; : An auction is truthful if the best strategy of any requester is to bid his/her valuation.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Individual rationality&lt;/strong&gt; : An auction is individually rational if the utility of any requester is non-negative.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Profitability&lt;/strong&gt; : An auction is profitable if the utility of the platform is non-negative.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Computational efficiency&lt;/strong&gt; : An auction is computationally efficient if the process of winner selection and payment computation can finish within polynomial time.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The order dispatch problem is NP-hard.&lt;/p&gt;
+&lt;h2 id=&#34;4-method&#34;&gt;4. Method&lt;/h2&gt;
+&lt;h3 id=&#34;41-the-greedy-approach&#34;&gt;4.1. The Greedy Approach&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Greedy-based order dispatch proceeds in two steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Initialization&lt;/strong&gt; : It traverses all requester-vehicle pairs to find the valid dispatches, and calculates the corresponding utilities. Valid dispatch means that $pl_i$ remains valid after accommodating $r_j$ .&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;One-by-one dispatch&lt;/strong&gt; : It keeps dispatching $(r_j∗, v_i∗)$ which brings the maximum utility among the remaining valid dispatches. The utility $u_{i,j}$ is calculated as $u_{i,j}=bid_j - \alpha_d * \Delta D_i(r_j)$ .
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-22-1/algorithm_1_hu12ffe048d93267b1b9c0f253235a764d_135273_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-22-1/algorithm_1_hu12ffe048d93267b1b9c0f253235a764d_135273_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;735&#34; height=&#34;682&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Order pricing for greedy dispatch
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-22-1/algorithm_2_hu03ef167f1e1d95b1259d71af5defba46_120078_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-22-1/algorithm_2_hu03ef167f1e1d95b1259d71af5defba46_120078_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;770&#34; height=&#34;557&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;42-the-ranking-approach&#34;&gt;4.2. The Ranking Approach&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Order Dispatch
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Pack generation&lt;/strong&gt; : For each $r_j$ , we find its nearest vehicle, $v_{r_j}$ . Then, for each $r_j$ , we find the optimal pack which contains $r_j$ and has at most $\bar{c}$ requesters, such that dispatching this pack to one of their nearest vehicles yields the maximum utility.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pack dispatch&lt;/strong&gt; : The packs are ranked in descending order of their utilities. Then, they are dispatched in the order of their rankings. The algorithm firstly retrieves the pack with the highest ranking, $pack_{j∗}$ among the remaining packs. Then, it dispatches $pack_{j∗}$ to its vehicle $v_{pack_{j∗}}$ . Finally, it removes the remaining packs whose requesters or vehicles are occupied by $pack_{j∗}$ . The pack dispatch process terminates when $Rank$ becomes empty.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-22-1/algorithm_3_hud73abff544603dddf1a5a9f6c8b0501c_139310_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-22-1/algorithm_3_hud73abff544603dddf1a5a9f6c8b0501c_139310_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;783&#34; height=&#34;639&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h2&gt;
+&lt;p&gt;Data set : Beijing, Didi.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Paper Note - 2020/2/17</title>
