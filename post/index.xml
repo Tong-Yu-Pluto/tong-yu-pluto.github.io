@@ -5,12 +5,109 @@
     <link>/post/</link>
       <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 22 Feb 2020 15:10:51 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 23 Feb 2020 15:47:03 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Posts</title>
       <link>/post/</link>
     </image>
+    
+    <item>
+      <title>Paper Note - 2020/2/23</title>
+      <link>/post/2020-2-23-1/</link>
+      <pubDate>Sun, 23 Feb 2020 15:47:03 +0800</pubDate>
+      <guid>/post/2020-2-23-1/</guid>
+      <description>&lt;h2 id=&#34;1-scenario&#34;&gt;1. Scenario&lt;/h2&gt;
+&lt;p&gt;Existing works in spatial matching or taxi dispatching only consider the pickup locations of riders and try to minimize the travel distance of taxis to pick riders, which causes that some taxis will be hard to pick up new convenient riders after their last riders unless move long distances to far away riders and results in the low efficiency of the platform.&lt;/p&gt;
+&lt;h2 id=&#34;2-motivation&#34;&gt;2. Motivation&lt;/h2&gt;
+&lt;p&gt;This paper investigates a queueing-theoretic dispatching framework in this paper, which aims to take riders’ destinations into consideration to alleviate the shortage of taxis in particular areas such that the overall revenue of the platform can be maximized.&lt;/p&gt;
+&lt;h2 id=&#34;3-preliminaries&#34;&gt;3. Preliminaries&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;The entire space is divided into a set of $n$ regions/grids $A=\{ a_1,a_2,\cdots,a_n \}$ .&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Rider&lt;/strong&gt; : The rider $r_i$ , who submit his/her order $o_i$ to the platform at timestamp $t_i$ , and is associated with a source location $s_i$ , a destination location $e_i$ and a pickup deadline $\tau_i$ .&lt;/li&gt;
+&lt;li&gt;If a rider $r_i$ is delivered to his/her destination, the platform will &lt;strong&gt;charge&lt;/strong&gt; him/her for $\alpha \cdot cost(s_i, e_i)$, where $\alpha$ is the travel fee rate of the platform.&lt;/li&gt;
+&lt;li&gt;Let $d_j$ be a driver, who is located position $l_j(t)$ at timestamp $t$ . Her status is either busy or available.&lt;/li&gt;
+&lt;li&gt;For region $a_k$ at timestamp $t$ , we denote the set of available drivers as $D_k(t)$ and the number of them as $|D_k(t)|$ .&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Maximum Revenue Vehicle Dispatching Problem&lt;/strong&gt; : For a given time period $\mathbb{T}$ , a set of riders $R_{\mathbb{T}}$ and a set of drivers $D_{\mathbb{T}}$ may dynamically join or leave the platform. The MRVD problem is to select a set, $I_{\mathbb{T}}$ , of valid rider-and-driver dispatching pairs such that the overall revenue of the platform is maximized.
+$$ \max \sum_{&amp;lt;r_i,d_i&amp;gt; \in I_{\mathbb{T}}}{\alpha \cdot cost(s_i,e_i)} $$&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reduction of MRVD&lt;/strong&gt; :  Let $\psi_{ij}$ be the idle time of driver $d_j$ after delivering rider $r_i$ .
+$$ \min \sum_{d_j \in d_{\mathbb{T}}} \sum_{i=0}^{R_j}{\psi_{ij}} $$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;4-method&#34;&gt;4. Method&lt;/h2&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-23-1/framework_huc1de902a645528f77d2660ac8a5d8375_138400_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-23-1/framework_huc1de902a645528f77d2660ac8a5d8375_138400_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;631&#34; height=&#34;481&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;strong&gt;Idle Ratio Oriented Greedy Approach&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We iteratively assign drivers to riders every $\delta$ seconds. The current scheduling time period $[\bar{t},\bar{t}+t_c]$ is a time period where we consider the arrivals of drivers and riders follow Poisson distributions for each region.&lt;/li&gt;
+&lt;li&gt;The idle ratio of driver $d_j$ to server rider $r_i$ :
+$$ IR(r_i,d_j) = \cfrac{ET(\lambda_{(k)},\mu_{(k)})}{ cost(s_i,e_i)+ET(\lambda_{(k)},\mu_{(k)}) } $$
+&lt;ul&gt;
+&lt;li&gt;$ET(\lambda_{(k)},\mu_{(k)})$ : the expected idle time of driver $d_j$ when he/she rejoins the platform at region $a_k$&lt;/li&gt;
+&lt;li&gt;We only need to greedily select the rider-and-driver dispatching pairs with low idle ratio.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;method&#34; &gt;
+
+
+  &lt;img src=&#34;method&#34; alt=&#34;&#34;  &gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h2 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h2&gt;
+&lt;p&gt;nil&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Paper Note - 2020/2/22</title>
