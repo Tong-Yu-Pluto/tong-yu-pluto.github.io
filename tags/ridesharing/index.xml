@@ -5,12 +5,276 @@
     <link>/tags/ridesharing/</link>
       <atom:link href="/tags/ridesharing/index.xml" rel="self" type="application/rss+xml" />
     <description>ridesharing</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 23 Feb 2020 15:47:03 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 24 Feb 2020 13:18:08 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>ridesharing</title>
       <link>/tags/ridesharing/</link>
     </image>
+    
+    <item>
+      <title>Paper Note - 2020/2/24</title>
+      <link>/post/2020-2-24-1/</link>
+      <pubDate>Mon, 24 Feb 2020 13:18:08 +0800</pubDate>
+      <guid>/post/2020-2-24-1/</guid>
+      <description>&lt;h2 id=&#34;1-scenario&#34;&gt;1. Scenario&lt;/h2&gt;
+&lt;p&gt;A core operation in dynamic ridesharing is the “&lt;strong&gt;insertion operator&lt;/strong&gt;”.  The insertion operator has a time complexity of $O(n^3)$ , where $n$ is the number of all requests assigned to the worker.&lt;/p&gt;
+&lt;h2 id=&#34;2-motivation&#34;&gt;2. Motivation&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;In this paper, the authors propose a novel partition framework and a dynamic programming based insertion with a time complexity of $O(n^2)$ .&lt;/li&gt;
+&lt;li&gt;They further improve the time efficiency of the insertion operator to $O(n)$ harnessing efficient index structures, such as fenwick tree.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;3-preliminaries&#34;&gt;3. Preliminaries&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Flow Time&lt;/strong&gt; : Given a worker $w$ , a request set $R$ and a feasible route $S_R$ , the flow time of each request $r \in R$ is the duration between $t_r$ and the time $r$ is delivered(denoted by $delv(r)$), i.e. $flw(r) = delv(r) − t_r$ .
+&lt;ul&gt;
+&lt;li&gt;$t_r$ : release time&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Insertion Operator&lt;/strong&gt; : Given a worker $w$ , a feasible route $S_R$ , and a new request $r$ , the insertion operator inserts $o_{r&amp;rsquo;}$ and $d_{r&amp;rsquo;}$ into $S_R$ to obtain a new feasible route $S_{R^+}$ ($ R^+ = R \cup \{ r&amp;rsquo;\}$).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Objective Functions&lt;/strong&gt; :
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-24-1/object_hu9ffd07dfd8523ffdd92115f54c1e2a27_32000_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-24-1/object_hu9ffd07dfd8523ffdd92115f54c1e2a27_32000_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;657&#34; height=&#34;209&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;4-method&#34;&gt;4. Method&lt;/h2&gt;
+&lt;h3 id=&#34;41-a-partition-based-framework&#34;&gt;4.1. A Partition-Based Framework&lt;/h3&gt;
+&lt;p&gt;The &lt;strong&gt;key enabler&lt;/strong&gt; is to check constraints and calculate the objective in $O(1)$ time using the partition framework rather than in $O(n)$ time.&lt;/p&gt;
+&lt;h4 id=&#34;411-rationale-of-partition&#34;&gt;4.1.1. Rationale of Partition&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;The key observation of the partition-based framework is that we can &lt;strong&gt;partition the requests into four disjoint sets&lt;/strong&gt; and handle their constraints and objective &lt;strong&gt;independently&lt;/strong&gt;. The partition of requests is based on the concept of &lt;strong&gt;detour&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Detour&lt;/strong&gt; : A detour represents the increased travel time after inserting a new location compared with the travel time of the original route. Formally, the detour $det(k, p)$ of inserting origin/destination $p$ between $k$-th location and $(k + 1)$-th location of route $S_R$ can be calculated as below
+$$ det(k,p) = dis(l_k,p) + dis(p,l_{k+1}) - dis(l_k,l_{k+1})$$
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-24-1/method_1_hufce73d8be5a582f4a80b5989282c9aa0_45180_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-24-1/method_1_hufce73d8be5a582f4a80b5989282c9aa0_45180_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;555&#34; height=&#34;165&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;According to the difference in the impact of detours due to insertion $(i,j)$ of a new request $r$ , we can now partition all the requests into four disjoint sets.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-24-1/method_2_hu641ef63ba729298b35d002ae70fda1aa_66100_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-24-1/method_2_hu641ef63ba729298b35d002ae70fda1aa_66100_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;581&#34; height=&#34;172&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;ol&gt;
+&lt;li&gt;$R_1$ contains the requests whose destinations are before the $i$-th location ($i$ included). All the requests in this set are not influenced by the detour of inserting $o_{r&amp;rsquo;}$ and $d_{r&amp;rsquo;}$ .&lt;/li&gt;
+&lt;li&gt;$R_2$ contains the requests whose destinations are between the $i$-th location ($i$ excluded) and the $j$-th location ($j$ included). All the requests in this set are influenced by detour of inserting $o_{r&amp;rsquo;}$ .&lt;/li&gt;
+&lt;li&gt;$R_3$ contains the requests whose destinations are after the $j$-th location ($j$ excluded). All the requests in this set are influenced by detours of inserting $o_{r&amp;rsquo;}$ and $d_{r&amp;rsquo;}$ .&lt;/li&gt;
+&lt;li&gt;$R_4$ contains the new request $r&#39;$ , which causes the detour.
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-24-1/object_2_hu15dd6f0535a2563e9bb378590f99b691_45630_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-24-1/object_2_hu15dd6f0535a2563e9bb378590f99b691_45630_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;666&#34; height=&#34;327&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;412-naive-dynamic-programming-based-insertion&#34;&gt;4.1.2. Naive Dynamic Programming Based Insertion&lt;/h4&gt;
+&lt;p&gt;The key insight is that the partition allows pre-calculation of some variables such that checking constraints and calculating the objectives can be performed in $O(1)$ time rather than $O(n)$ .&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-24-1/method_3_hudc0fc47b2d47bd0bd03a742100719693_129157_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-24-1/method_3_hudc0fc47b2d47bd0bd03a742100719693_129157_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;774&#34; height=&#34;720&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;42-a-segment-based-dp-algorithm&#34;&gt;4.2. A Segment Based DP Algorithm&lt;/h3&gt;
+&lt;p&gt;
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-24-1/method_4_hud720541b762436ea8cb5d85bb85340bd_164541_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-24-1/method_4_hud720541b762436ea8cb5d85bb85340bd_164541_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;770&#34; height=&#34;826&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-24-1/method_5_hu603695ec5adcc277b372df528dd394e6_138245_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-24-1/method_5_hu603695ec5adcc277b372df528dd394e6_138245_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;655&#34; height=&#34;405&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;5-experiment&#34;&gt;5. Experiment&lt;/h2&gt;
+&lt;p&gt;nil&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Paper Note - 2020/2/23</title>

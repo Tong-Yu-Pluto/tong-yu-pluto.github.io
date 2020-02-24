@@ -5,7 +5,7 @@
     <link>/tags/</link>
       <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 23 Feb 2020 15:47:03 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 24 Feb 2020 13:18:08 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Tags</title>
@@ -15,7 +15,7 @@
     <item>
       <title>ridesharing</title>
       <link>/tags/ridesharing/</link>
-      <pubDate>Sun, 23 Feb 2020 15:47:03 +0800</pubDate>
+      <pubDate>Mon, 24 Feb 2020 13:18:08 +0800</pubDate>
       <guid>/tags/ridesharing/</guid>
       <description></description>
     </item>
@@ -23,7 +23,7 @@
     <item>
       <title>spatial crowdsourcing</title>
       <link>/tags/spatial-crowdsourcing/</link>
-      <pubDate>Sun, 23 Feb 2020 15:47:03 +0800</pubDate>
+      <pubDate>Mon, 24 Feb 2020 13:18:08 +0800</pubDate>
       <guid>/tags/spatial-crowdsourcing/</guid>
       <description></description>
     </item>
