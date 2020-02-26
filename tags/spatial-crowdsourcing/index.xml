@@ -5,12 +5,373 @@
     <link>/tags/spatial-crowdsourcing/</link>
       <atom:link href="/tags/spatial-crowdsourcing/index.xml" rel="self" type="application/rss+xml" />
     <description>spatial crowdsourcing</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 24 Feb 2020 13:18:08 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 26 Feb 2020 13:34:27 +0800</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>spatial crowdsourcing</title>
       <link>/tags/spatial-crowdsourcing/</link>
     </image>
+    
+    <item>
+      <title>Paper Note - 2020/2/26</title>
+      <link>/post/2020-2-26-1/</link>
+      <pubDate>Wed, 26 Feb 2020 13:34:27 +0800</pubDate>
+      <guid>/post/2020-2-26-1/</guid>
+      <description>&lt;h2 id=&#34;1-analyzing-riders&#34;&gt;1. Analyzing Riders&lt;/h2&gt;
+&lt;h3 id=&#34;11-demographics-and-number-of-rides&#34;&gt;1.1. Demographics and number of rides&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-26-1/1_1_huacdd2d2438899eeb80fa577044e630d4_44819_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-26-1/1_1_huacdd2d2438899eeb80fa577044e630d4_44819_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;663&#34; height=&#34;192&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;12-duration-length-and-cost-of-rides&#34;&gt;1.2. Duration, length, and cost of rides&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-26-1/1_2_hu58890bf3e6fc6d1bf1d3df2fa0ecd06d_91069_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-26-1/1_2_hu58890bf3e6fc6d1bf1d3df2fa0ecd06d_91069_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;767&#34; height=&#34;433&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;13-income-surge-and-car-type&#34;&gt;1.3. Income, surge, and car type&lt;/h3&gt;
+&lt;p&gt;
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-26-1/1_3_hu223d3ee539515de652208caa22fa73b5_112754_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-26-1/1_3_hu223d3ee539515de652208caa22fa73b5_112754_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;740&#34; height=&#34;507&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-26-1/1_4_hu06a47632552a4a34e4ae598125c56bfa_47344_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-26-1/1_4_hu06a47632552a4a34e4ae598125c56bfa_47344_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;688&#34; height=&#34;438&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;14-ride-dynamics&#34;&gt;1.4. Ride dynamics&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-26-1/1_5_hu7579e9d8bf42333b0ed735ad27b90c22_59115_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-26-1/1_5_hu7579e9d8bf42333b0ed735ad27b90c22_59115_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;737&#34; height=&#34;512&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;15-rider-attrition&#34;&gt;1.5. Rider attrition&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-26-1/1_6_huf63c4b54a8ec6e427fa6245abc370e98_51868_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-26-1/1_6_huf63c4b54a8ec6e427fa6245abc370e98_51868_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;738&#34; height=&#34;273&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h2 id=&#34;2-analyzing-drivers&#34;&gt;2. Analyzing Drivers&lt;/h2&gt;
+&lt;h3 id=&#34;21-demographics&#34;&gt;2.1. Demographics&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-26-1/2_1_hu6db1827076ba8bdcaf7188c44f54b8b4_95163_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-26-1/2_1_hu6db1827076ba8bdcaf7188c44f54b8b4_95163_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;775&#34; height=&#34;470&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;22-hours-worked-income-and-rating&#34;&gt;2.2. Hours worked, income, and rating&lt;/h3&gt;
+&lt;p&gt;
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-26-1/2_2_hu2423828db78e4e3c9ee58d47dab4bca3_135265_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-26-1/2_2_hu2423828db78e4e3c9ee58d47dab4bca3_135265_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;1458&#34; height=&#34;441&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-26-1/2_3_hu7c4bf09149a9b866d5dbbd950ca7351e_78124_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-26-1/2_3_hu7c4bf09149a9b866d5dbbd950ca7351e_78124_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;782&#34; height=&#34;453&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-26-1/2_4_hu93d421c025ee630a4d31e26c006116b4_53258_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-26-1/2_4_hu93d421c025ee630a4d31e26c006116b4_53258_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;774&#34; height=&#34;455&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;23-driver-retention&#34;&gt;2.3. Driver retention&lt;/h3&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/2020-2-26-1/2_5_huf1e4f57b5150d1da32decc7363c7525b_69199_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/2020-2-26-1/2_5_huf1e4f57b5150d1da32decc7363c7525b_69199_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;747&#34; height=&#34;485&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;3-data-sets&#34;&gt;3. Data Sets&lt;/h3&gt;
+&lt;p&gt;Uber&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Paper Note - 2020/2/24</title>
